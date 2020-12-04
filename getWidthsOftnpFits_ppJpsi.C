@@ -1,7 +1,7 @@
 
 
 
-void getWidthsOftnpFits_ppJpsi(TString RDorMC="RD") {
+void getWidthsOftnpFits_ppJpsi(TString RDorMC="MC") {
 
   gStyle->SetOptStat(0);
   const static int numParams = 2;

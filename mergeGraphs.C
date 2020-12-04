@@ -25,7 +25,7 @@ void mergeGraphs() {
   TGraphAsymmErrors* gsigmaZppRD = (TGraphAsymmErrors*)fZppRD->Get("Graph_from_hsigma");
   TGraphAsymmErrors* gmassZppRD = (TGraphAsymmErrors*)fZppRD->Get("Graph_from_hmass");
   TFile* fJpsiPbPbRD = TFile::Open("MassResJpsiPbPbRD.root","READ");
-  TGraphAsymmErrors* gsigmaJpsiPbPbRD = (TGraphAsymmErrors*)fJpsiPbPbRD->Get("Graph_from_hsigma");
+  TGraphAsymmErrors* gsigmaJpsiPbPbRD = (TGraphAsymmErrors*)fJpsiPbPbRD->Get("Graph_from_hsigmaC");
   TGraphAsymmErrors* gmassJpsiPbPbRD = (TGraphAsymmErrors*)fJpsiPbPbRD->Get("Graph_from_hmass");
   TFile* fJpsipPbRD = TFile::Open("MassResJpsipPbRD.root","READ");
   TGraphAsymmErrors* gsigmaJpsipPbRD = (TGraphAsymmErrors*)fJpsipPbRD->Get("Graph_from_hsigmaC");
@@ -45,7 +45,7 @@ void mergeGraphs() {
   //TGraphAsymmErrors* gsigmaZppMC = (TGraphAsymmErrors*)fZppMC->Get("Graph_from_hsigma");
   //TGraphAsymmErrors* gmassZppMC = (TGraphAsymmErrors*)fZppMC->Get("Graph_from_hmass");
   TFile* fJpsiPbPbMC = TFile::Open("MassResJpsiPbPbMC.root","READ");
-  TGraphAsymmErrors* gsigmaJpsiPbPbMC = (TGraphAsymmErrors*)fJpsiPbPbMC->Get("Graph_from_hsigma");
+  TGraphAsymmErrors* gsigmaJpsiPbPbMC = (TGraphAsymmErrors*)fJpsiPbPbMC->Get("Graph_from_hsigmaC");
   TGraphAsymmErrors* gmassJpsiPbPbMC = (TGraphAsymmErrors*)fJpsiPbPbMC->Get("Graph_from_hmass");
   TFile* fJpsipPbMC = TFile::Open("MassResJpsipPbMC.root","READ");
   TGraphAsymmErrors* gsigmaJpsipPbMC = (TGraphAsymmErrors*)fJpsipPbMC->Get("Graph_from_hsigmaC");
@@ -59,6 +59,7 @@ void mergeGraphs() {
   removeXerrors(gsigmaZPbPbRD);
   removeXerrors(gsigmaZpPbRD);
   removeXerrors(gsigmaZppRD);
+  cout << gsigmaJpsiPbPbRD->GetN() << endl;
   removeXerrors(gsigmaJpsiPbPbRD);
   removeXerrors(gsigmaJpsipPbRD);
   removeXerrors(gsigmaJpsippRD);

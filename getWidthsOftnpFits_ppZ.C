@@ -1,7 +1,7 @@
 
 
 
-void getWidthsOftnpFits_ppZ(TString RDorMC="MC") {
+void getWidthsOftnpFits_ppZ(TString RDorMC="RD") {
 
   gStyle->SetOptStat(0);
   const static int numParams = 2;

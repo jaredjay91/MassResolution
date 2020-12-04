@@ -1,7 +1,7 @@
 
 
 
-void getWidthsOftnpFits_pPbJpsi(TString RDorMC="RD") {
+void getWidthsOftnpFits_pPbJpsi(TString RDorMC="MC") {
 
   gStyle->SetOptStat(0);
   const static int numParams = 2;
@@ -15,7 +15,7 @@ void getWidthsOftnpFits_pPbJpsi(TString RDorMC="RD") {
 
   TString filename;
   if (RDorMC=="RD") filename = "pPbJpsi/tnp_Ana_RD_Trig_pPb_cbGausPassFailExppt35_8.root";
-  else if (RDorMC=="MC") filename = "pPbJpsi/tnp_Ana_MC_Trig_pPb_cbGausExp_8.root";
+  else if (RDorMC=="MC") filename = "pPbJpsi/tnp_Ana_MC_Trig_pPb_cbGausPassFailExppt35_8.root";
 
   TFile* f1 = TFile::Open(filename,"READ");
 
@@ -24,7 +24,7 @@ void getWidthsOftnpFits_pPbJpsi(TString RDorMC="RD") {
       TString fitResPath;
       if (RDorMC=="RD") fitResPath = Form("tpTree/Trig_centdep/eta_bin0__pt_bin0__tag_hiNtracks_bin%i__tag_nVertices_bin0__SoftID_true__probe_trg_acceptance_true__tag_HLT_PAL3Mu3_true__cbGausPassFailExp/fitresults;1",i);
       //if (RDorMC=="RD") fitResPath = Form("tpTree/Trig_centdep/eta_bin0__pt_bin0__tag_hiNtracks_bin%i__tag_nVertices_bin0__SoftID_true__probe_trg_acceptance_true__tag_HLT_PAL3Mu3_true__cbGausExp/fitresults;1",i);
-      else if (RDorMC=="MC") fitResPath = Form("tpTree/Trig_centdep/eta_bin0__pt_bin0__tag_hiNtracks_bin%i__tag_nVertices_bin0__SoftID_true__TM_true__probe_trg_acceptance_true__tag_HLT_PAL3Mu3_true__cbGausExp/fitresults;1",i);
+      else if (RDorMC=="MC") fitResPath = Form("tpTree/Trig_centdep/eta_bin0__pt_bin0__tag_hiNtracks_bin%i__tag_nVertices_bin0__SoftID_true__TM_true__probe_trg_acceptance_true__tag_HLT_PAL3Mu3_true__cbGausPassFailExp/fitresults;1",i);
       RooFitResult* fitRes = (RooFitResult*)f1->Get(fitResPath);//Change this to match whatever is in the file you're using.
 
       fitRes->Print("v");
