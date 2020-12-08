@@ -1,7 +1,10 @@
 
 
 
-void getWidthsOftnpFits_ptppZ(TString RDorMC="RD") {
+void getWidthsOftnpFits_ptppZ(int RD0MC1=0) {
+  TString RDorMC;
+  if (RD0MC1==0) RDorMC = "RD";
+  else if (RD0MC1==1) RDorMC = "MC";
 
   gStyle->SetOptStat(0);
   const static int numParams = 2;
@@ -64,7 +67,7 @@ void getWidthsOftnpFits_ptppZ(TString RDorMC="RD") {
   //leg->AddEntry(hsigmaC,"sigma combined","pel");
   leg->Draw("same");
 
-  c1->SaveAs(Form("ptMassResZpp%s.pdf",RDorMC.Data()));
+  c1->SaveAs(Form("Results/ptMassResZpp%s.pdf",RDorMC.Data()));
 
   TCanvas* c2 = new TCanvas("c2","c2",400,0,400,400);
   c2->cd();
@@ -86,10 +89,10 @@ void getWidthsOftnpFits_ptppZ(TString RDorMC="RD") {
   leg2->AddEntry(hmass,"#mu/m_{Z}","pel");
   leg2->Draw("same");
 
-  c2->SaveAs(Form("ptMassScaleZpp%s.pdf",RDorMC.Data()));
+  c2->SaveAs(Form("Results/ptMassScaleZpp%s.pdf",RDorMC.Data()));
 
   //Set up the output tree.
-  TString outFileName = Form("ptMassResZpp%s.root",RDorMC.Data());
+  TString outFileName = Form("Results/ptMassResZpp%s.root",RDorMC.Data());
   TFile* outFile = new TFile(outFileName.Data(),"recreate");
 
   //Make TGraphAsymmErrors:

@@ -15,42 +15,42 @@ void mergeGraphs() {
   gStyle->SetErrorX(0);//This doesn't do anything.
 
   cout << "Loading graphs from RD files..." << endl;
-  TFile* fZPbPbRD = TFile::Open("MassResZPbPbRD.root","READ");
+  TFile* fZPbPbRD = TFile::Open("Results/MassResZPbPbRD.root","READ");
   TGraphAsymmErrors* gsigmaZPbPbRD = (TGraphAsymmErrors*)fZPbPbRD->Get("Graph_from_hsigma");
   TGraphAsymmErrors* gmassZPbPbRD = (TGraphAsymmErrors*)fZPbPbRD->Get("Graph_from_hmass");
-  TFile* fZpPbRD = TFile::Open("MassResZpPbRD.root","READ");
+  TFile* fZpPbRD = TFile::Open("Results/MassResZpPbRD.root","READ");
   TGraphAsymmErrors* gsigmaZpPbRD = (TGraphAsymmErrors*)fZpPbRD->Get("Graph_from_hsigma");
   TGraphAsymmErrors* gmassZpPbRD = (TGraphAsymmErrors*)fZpPbRD->Get("Graph_from_hmass");
-  TFile* fZppRD = TFile::Open("MassResZppRD.root","READ");
+  TFile* fZppRD = TFile::Open("Results/MassResZppRD.root","READ");
   TGraphAsymmErrors* gsigmaZppRD = (TGraphAsymmErrors*)fZppRD->Get("Graph_from_hsigma");
   TGraphAsymmErrors* gmassZppRD = (TGraphAsymmErrors*)fZppRD->Get("Graph_from_hmass");
-  TFile* fJpsiPbPbRD = TFile::Open("MassResJpsiPbPbRD.root","READ");
+  TFile* fJpsiPbPbRD = TFile::Open("Results/MassResJpsiPbPbRD.root","READ");
   TGraphAsymmErrors* gsigmaJpsiPbPbRD = (TGraphAsymmErrors*)fJpsiPbPbRD->Get("Graph_from_hsigmaC");
   TGraphAsymmErrors* gmassJpsiPbPbRD = (TGraphAsymmErrors*)fJpsiPbPbRD->Get("Graph_from_hmass");
-  TFile* fJpsipPbRD = TFile::Open("MassResJpsipPbRD.root","READ");
+  TFile* fJpsipPbRD = TFile::Open("Results/MassResJpsipPbRD.root","READ");
   TGraphAsymmErrors* gsigmaJpsipPbRD = (TGraphAsymmErrors*)fJpsipPbRD->Get("Graph_from_hsigmaC");
   TGraphAsymmErrors* gmassJpsipPbRD = (TGraphAsymmErrors*)fJpsipPbRD->Get("Graph_from_hmass");
-  TFile* fJpsippRD = TFile::Open("MassResJpsippRD.root","READ");
+  TFile* fJpsippRD = TFile::Open("Results/MassResJpsippRD.root","READ");
   TGraphAsymmErrors* gsigmaJpsippRD = (TGraphAsymmErrors*)fJpsippRD->Get("Graph_from_hsigmaC");
   TGraphAsymmErrors* gmassJpsippRD = (TGraphAsymmErrors*)fJpsippRD->Get("Graph_from_hmass");
 
   cout << "Loading graphs from MC files..." << endl;
-  TFile* fZPbPbMC = TFile::Open("MassResZPbPbMC.root","READ");
+  TFile* fZPbPbMC = TFile::Open("Results/MassResZPbPbMC.root","READ");
   TGraphAsymmErrors* gsigmaZPbPbMC = (TGraphAsymmErrors*)fZPbPbMC->Get("Graph_from_hsigma");
   TGraphAsymmErrors* gmassZPbPbMC = (TGraphAsymmErrors*)fZPbPbMC->Get("Graph_from_hmass");
-  TFile* fZpPbMC = TFile::Open("MassResZpPbMC.root","READ");
+  TFile* fZpPbMC = TFile::Open("Results/MassResZpPbMC.root","READ");
   TGraphAsymmErrors* gsigmaZpPbMC = (TGraphAsymmErrors*)fZpPbMC->Get("Graph_from_hsigma");
   TGraphAsymmErrors* gmassZpPbMC = (TGraphAsymmErrors*)fZpPbMC->Get("Graph_from_hmass");
-  //TFile* fZppMC = TFile::Open("MassResZppMC.root","READ");
+  //TFile* fZppMC = TFile::Open("Results/MassResZppMC.root","READ");
   //TGraphAsymmErrors* gsigmaZppMC = (TGraphAsymmErrors*)fZppMC->Get("Graph_from_hsigma");
   //TGraphAsymmErrors* gmassZppMC = (TGraphAsymmErrors*)fZppMC->Get("Graph_from_hmass");
-  TFile* fJpsiPbPbMC = TFile::Open("MassResJpsiPbPbMC.root","READ");
+  TFile* fJpsiPbPbMC = TFile::Open("Results/MassResJpsiPbPbMC.root","READ");
   TGraphAsymmErrors* gsigmaJpsiPbPbMC = (TGraphAsymmErrors*)fJpsiPbPbMC->Get("Graph_from_hsigmaC");
   TGraphAsymmErrors* gmassJpsiPbPbMC = (TGraphAsymmErrors*)fJpsiPbPbMC->Get("Graph_from_hmass");
-  TFile* fJpsipPbMC = TFile::Open("MassResJpsipPbMC.root","READ");
+  TFile* fJpsipPbMC = TFile::Open("Results/MassResJpsipPbMC.root","READ");
   TGraphAsymmErrors* gsigmaJpsipPbMC = (TGraphAsymmErrors*)fJpsipPbMC->Get("Graph_from_hsigmaC");
   TGraphAsymmErrors* gmassJpsipPbMC = (TGraphAsymmErrors*)fJpsipPbMC->Get("Graph_from_hmass");
-  //TFile* fJpsippMC = TFile::Open("MassResJpsippMC.root","READ");
+  //TFile* fJpsippMC = TFile::Open("Results/MassResJpsippMC.root","READ");
   //TGraphAsymmErrors* gsigmaJpsippMC = (TGraphAsymmErrors*)fJpsippMC->Get("Graph_from_hsigmaC");
   //TGraphAsymmErrors* gmassJpsippMC = (TGraphAsymmErrors*)fJpsippMC->Get("Graph_from_hmass");
 
@@ -88,7 +88,7 @@ void mergeGraphs() {
   cout << "Finished removing X errors." << endl;
 
   //Set up the output file.
-  TString outFileName = "MassResCombined.root";
+  TString outFileName = "FinalPlots/MassResCombined.root";
   TFile* outFile = new TFile(outFileName.Data(),"recreate");
 
 
@@ -342,14 +342,14 @@ void mergeGraphs() {
   l4->Draw("same");
 
 
-  c1->SaveAs("MassResZ.pdf");
-  c1->SaveAs("MassResZ.png");
-  c2->SaveAs("MassScaleZ.pdf");
-  c2->SaveAs("MassScaleZ.png");
-  c3->SaveAs("MassResJpsi.pdf");
-  c3->SaveAs("MassResJpsi.png");
-  c4->SaveAs("MassScaleJpsi.pdf");
-  c4->SaveAs("MassScaleJpsi.png");
+  c1->SaveAs("FinalPlots/MassResZ.pdf");
+  c1->SaveAs("FinalPlots/MassResZ.png");
+  c2->SaveAs("FinalPlots/MassScaleZ.pdf");
+  c2->SaveAs("FinalPlots/MassScaleZ.png");
+  c3->SaveAs("FinalPlots/MassResJpsi.pdf");
+  c3->SaveAs("FinalPlots/MassResJpsi.png");
+  c4->SaveAs("FinalPlots/MassScaleJpsi.pdf");
+  c4->SaveAs("FinalPlots/MassScaleJpsi.png");
 
 
   //Write everything to the output file

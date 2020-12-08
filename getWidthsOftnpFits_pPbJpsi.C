@@ -1,7 +1,10 @@
 
 
 
-void getWidthsOftnpFits_pPbJpsi(TString RDorMC="MC") {
+void getWidthsOftnpFits_pPbJpsi(int RD0MC1=0) {
+  TString RDorMC;
+  if (RD0MC1==0) RDorMC = "RD";
+  else if (RD0MC1==1) RDorMC = "MC";
 
   gStyle->SetOptStat(0);
   const static int numParams = 2;
@@ -152,7 +155,7 @@ void getWidthsOftnpFits_pPbJpsi(TString RDorMC="MC") {
   leg->AddEntry(hsigmaC,"combined","pel");
   leg->Draw("same");
 
-  c1->SaveAs(Form("MassResJpsipPb%s.pdf",RDorMC.Data()));
+  c1->SaveAs(Form("Results/MassResJpsipPb%s.pdf",RDorMC.Data()));
 
   TCanvas* c2 = new TCanvas("c2","c2",400,0,400,400);
   c2->cd();
@@ -174,10 +177,10 @@ void getWidthsOftnpFits_pPbJpsi(TString RDorMC="MC") {
   leg2->AddEntry(hmass,"#mu/m_{J/#psi}","pel");
   leg2->Draw("same");
 
-  c2->SaveAs(Form("MassScaleJpsipPb%s.pdf",RDorMC.Data()));
+  c2->SaveAs(Form("Results/MassScaleJpsipPb%s.pdf",RDorMC.Data()));
 
   //Set up the output tree.
-  TString outFileName = Form("MassResJpsipPb%s.root",RDorMC.Data());
+  TString outFileName = Form("Results/MassResJpsipPb%s.root",RDorMC.Data());
   TFile* outFile = new TFile(outFileName.Data(),"recreate");
 
   //Make TGraphAsymmErrors:
