@@ -1,5 +1,5 @@
 
-void getWidthsOftnpFits_ptPbPbZ() {
+void getWidthsOftnpFits_ptPbPbZ(TString RDorMC="RD") {
 
   gStyle->SetOptStat(0);
   const static int numParams = 2;
@@ -10,8 +10,10 @@ void getWidthsOftnpFits_ptPbPbZ() {
   TH1D* hsigma = new TH1D("hsigma","hsigma",numbins,ptbins);
   TH1D* hmass = new TH1D("hmass","hmass",numbins,ptbins);
 
-  //TFile* f1 = TFile::Open("PbPbZ/tnp_Ana_RD_TrkfromTrkM9_PbPb_paper_0.root","READ");
-  TFile* f1 = TFile::Open("PbPbZ/tnp_Ana_RD_L3Mu12_PbPb_0_v5_paperFixedBWn.root","READ");
+  TString filename;
+  if (RDorMC=="RD") filename = "PbPbZ/tnp_Ana_RD_L3Mu12_PbPb_0_v5_paperFixedBWn.root";
+  else if (RDorMC=="MC") filename = "PbPbZ/tnp_Ana_MC_L3Mu12_PbPb_0_v5_paperFixedBWn.root";
+  TFile* f1 = TFile::Open(filename,"READ");
 
   cout << "starting loop" << endl;
    for (int i=0; i<numbins; i++) {
@@ -63,7 +65,7 @@ void getWidthsOftnpFits_ptPbPbZ() {
   //leg->AddEntry(hsigmaC,"sigma combined","pel");
   leg->Draw("same");
 
-  c1->SaveAs("ptMassResZPbPb.pdf");
+  c1->SaveAs(Form("ptMassResZPbPb%s.pdf",RDorMC.Data()));
 
   TCanvas* c2 = new TCanvas("c2","c2",400,0,400,400);
   c2->cd();
@@ -85,10 +87,10 @@ void getWidthsOftnpFits_ptPbPbZ() {
   leg2->AddEntry(hmass,"#mu/m_{Z}","pel");
   leg2->Draw("same");
 
-  c2->SaveAs("ptMassScaleZPbPb.pdf");
+  c2->SaveAs(Form("ptMassScaleZPbPb%s.pdf",RDorMC.Data()));
 
   //Set up the output tree.
-  TString outFileName = "ptMassResZPbPb.root";
+  TString outFileName = Form("ptMassResZPbPb%s.root",RDorMC.Data());
   TFile* outFile = new TFile(outFileName.Data(),"recreate");
 
   //Make TGraphAsymmErrorss converted to Ntracks:

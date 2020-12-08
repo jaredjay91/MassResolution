@@ -1,7 +1,7 @@
 
 
 
-void getWidthsOftnpFits_ptpPbJpsi() {
+void getWidthsOftnpFits_ptpPbJpsi(TString RDorMC="MC") {
 
   gStyle->SetOptStat(0);
   const static int numParams = 2;
@@ -13,12 +13,20 @@ void getWidthsOftnpFits_ptpPbJpsi() {
   TH1D* hsigmaC = new TH1D("hsigmaC","hsigmaC",numbins,ptbins);
   TH1D* hmass = new TH1D("hmass","hmass",numbins,ptbins);
 
-  TFile* f1 = TFile::Open("pPbJpsi/tnp_Ana_RD_Trig_pPb_cbGausPassFailExp_2020_05_11.root","READ");
+  TString filename;
+  if (RDorMC=="RD") filename = "pPbJpsi/tnp_Ana_RD_Trig_pPb_cbGausPassFailExp_2020_05_11.root";
+  else if (RDorMC=="MC") filename = "pPbJpsi/tnp_Ana_MC_Trig_pPb_cbGausPassFailExp_2020_05_11.root";
+
+  TFile* f1 = TFile::Open(filename,"READ");
 
   cout << "starting loop" << endl;
     for (int i=0; i<numbins; i++) {
       cout << "reading bin " << i << endl;
-      RooFitResult* fitRes = (RooFitResult*)f1->Get(Form("tpTree/Trig_abseta21_24/abseta_bin0__pt_bin%i__tag_nVertices_bin0__SoftID_true__probe_trg_acceptance_true__tag_HLT_PAL3Mu3_true__cbGausPassFailExp/fitresult_simPdf_data_binned;1",i));//Change this to match whatever is in the file you're using.
+      TString fitResPath;
+      if (RDorMC=="RD") fitResPath = Form("tpTree/Trig_abseta21_24/abseta_bin0__pt_bin%i__tag_nVertices_bin0__SoftID_true__probe_trg_acceptance_true__tag_HLT_PAL3Mu3_true__cbGausPassFailExp/fitresult_simPdf_data_binned;1",i);
+      //if (RDorMC=="RD") fitResPath = Form("tpTree/Trig_centdep/eta_bin0__pt_bin0__tag_hiNtracks_bin%i__tag_nVertices_bin0__SoftID_true__probe_trg_acceptance_true__tag_HLT_PAL3Mu3_true__cbGausExp/fitresults;1",i);
+      else if (RDorMC=="MC") fitResPath = Form("tpTree/Trig_abseta21_24/abseta_bin0__pt_bin%i__tag_nVertices_bin0__SoftID_true__TM_true__probe_trg_acceptance_true__tag_HLT_PAL3Mu3_true__cbGausPassFailExp/fitresult_simPdf_data_binned;1",i);
+      RooFitResult* fitRes = (RooFitResult*)f1->Get(fitResPath);//Change this to match whatever is in the file you're using.
 
       fitRes->Print("v");
 
@@ -45,37 +53,6 @@ void getWidthsOftnpFits_ptpPbJpsi() {
       hsigma2Pass->SetBinContent(i+1,sigma2Passval);
       hsigma2Pass->SetBinError(i+1,sigma2Passerr);
 
-/*    cbGausPassFailExp = cms.vstring(
-        "CBShape::signal1Pass(mass, mean[3.08,3.00,3.3], sigma1Pass[0.03, 0.01, 0.10], alpha[1.8, 0.1, 50], n[1.53])",
-        "CBShape::signal1Fail(mass, mean, sigma1Fail[0.03, 0.01, 0.10], alpha, n)",
-        "RooFormulaVar::sigma2Pass('@0*@1',{fracS[2.0,1.2,2.4],sigma1Pass})",
-        "Gaussian::signal2Pass(mass, mean, sigma2Pass)",
-        "RooFormulaVar::sigma2Fail('@0*@1',{fracS,sigma1Fail})",
-        "Gaussian::signal2Fail(mass, mean, sigma2Fail)",
-        "SUM::signalPass(frac[0.8,0.5,1.]*signal1Pass,signal2Pass)",
-        "SUM::signalFail(frac*signal1Fail,signal2Fail)",
-        "Exponential::backgroundPass(mass, lp[0,-5,5])",
-        "Exponential::backgroundFail(mass, lf[0,-5,5])",
-        "efficiency[0.9,0,1]",
-        "signalFractionInPassing[0.9]"
-    ),
-    not defined: effBkg, fSigAll, numTot
-
-    From observation:
-    effBkg = numBkgPass/numBkgTot
-    fSigAll = fraction of probes that are in the signal
-    numTot = Total number of probes in the fit (passing or failing, signal or bkg)
-
-    numBkgTot = (1-fSigAll)*numTot
-
-    numSigTot = fSigAll*numTot
-    numSigPass = efficiency*numSigTot
-
-    We have signalPass = frac*signal1Pass + signal2Pass where signal1Pass and signal2Pass are normalized pdfs. That means they're the same size. So the total number of passing probes in each part of the signal is:
-    num1Pass = numSigPass*frac/(frac+1)
-    num2Pass = numSigPass*1/(frac+1)
-    so we have num1Pass + num2Pass = numSigPass = efficiency*fSigAll*numTot
-*/
 
     RooRealVar* numTot_fitRes = (RooRealVar*)fitRes->floatParsFinal().find("numTot");
     double numTotval = numTot_fitRes->getVal();
@@ -129,7 +106,7 @@ void getWidthsOftnpFits_ptpPbJpsi() {
   hsigma1Pass->SetMinimum(0);
   hsigma1Pass->SetMaximum(0.03);
   hsigma1Pass->GetXaxis()->SetTitle("p_{T} (2.1<|#eta|<2.4)");
-  hsigma1Pass->GetXaxis()->SetRangeUser(1.3,12);
+  //hsigma1Pass->GetXaxis()->SetRangeUser(1.3,12);//zoom in
   hsigma1Pass->Draw();
   hsigma2Pass->SetLineColor(kGreen+3);
   hsigma2Pass->Draw("same");
@@ -145,7 +122,7 @@ void getWidthsOftnpFits_ptpPbJpsi() {
   leg->AddEntry(hsigmaC,"combined","pel");
   leg->Draw("same");
 
-  c1->SaveAs("ptMassResJpsipPb_zoom.pdf");
+  c1->SaveAs(Form("ptMassResJpsipPb%s.pdf",RDorMC.Data()));
 
   TCanvas* c2 = new TCanvas("c2","c2",400,0,400,400);
   c2->cd();
@@ -154,7 +131,7 @@ void getWidthsOftnpFits_ptpPbJpsi() {
   hmass->SetMinimum(0.99);
   hmass->SetMaximum(1.01);
   hmass->GetXaxis()->SetTitle("p_{T} (2.1<|#eta|<2.4)");
-  hmass->GetXaxis()->SetRangeUser(1.3,12);
+  //hmass->GetXaxis()->SetRangeUser(1.3,12);//Zoom in
   hmass->Draw();
   TLine* l1 = new TLine(1.3,1,12,1);
   l1->SetLineColor(kRed);
@@ -168,10 +145,10 @@ void getWidthsOftnpFits_ptpPbJpsi() {
   leg2->AddEntry(hmass,"#mu/m_{J/#psi}","pel");
   leg2->Draw("same");
 
-  c2->SaveAs("ptMassScaleJpsipPb_zoom.pdf");
+  c2->SaveAs(Form("ptMassScaleJpsipPb%s.pdf",RDorMC.Data()));
 
   //Set up the output tree.
-  TString outFileName = "ptMassResJpsipPb.root";
+  TString outFileName = Form("ptMassResJpsipPb%s.root",RDorMC.Data());
   TFile* outFile = new TFile(outFileName.Data(),"recreate");
 
   //Make TGraphAsymmErrors:

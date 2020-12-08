@@ -1,7 +1,7 @@
 
 
 
-void getWidthsOftnpFits_ptppJpsi() {
+void getWidthsOftnpFits_ptppJpsi(TString RDorMC="RD") {
 
   gStyle->SetOptStat(0);
   const static int numParams = 2;
@@ -131,7 +131,7 @@ void getWidthsOftnpFits_ptppJpsi() {
   hsigma1->SetMinimum(0);
   hsigma1->SetMaximum(0.03);
   hsigma1->GetXaxis()->SetTitle("p_{T} (2.1<|#eta|<2.4)");
-  hsigma1->GetXaxis()->SetRangeUser(1.2,12);
+  //hsigma1->GetXaxis()->SetRangeUser(1.2,12);//zoom in
   hsigma1->Draw();
   hsigma2->SetLineColor(kGreen+3);
   hsigma2->Draw("same");
@@ -147,7 +147,7 @@ void getWidthsOftnpFits_ptppJpsi() {
   leg->AddEntry(hsigmaC,"combined","pel");
   leg->Draw("same");
 
-  c1->SaveAs("ptMassResJpsipp_zoom.pdf");
+  c1->SaveAs(Form("ptMassResJpsipp%s.pdf",RDorMC.Data()));
 
   TCanvas* c2 = new TCanvas("c2","c2",400,0,400,400);
   c2->cd();
@@ -156,7 +156,7 @@ void getWidthsOftnpFits_ptppJpsi() {
   hmass->SetMinimum(0.99);
   hmass->SetMaximum(1.01);
   hmass->GetXaxis()->SetTitle("p_{T} (2.1<|#eta|<2.4)");
-  hmass->GetXaxis()->SetRangeUser(1.2,12);
+  //hmass->GetXaxis()->SetRangeUser(1.2,12);//zoom in
   hmass->Draw();
   TLine* l1 = new TLine(1.2,1,12,1);
   l1->SetLineColor(kRed);
@@ -170,10 +170,10 @@ void getWidthsOftnpFits_ptppJpsi() {
   leg2->AddEntry(hmass,"#mu/m_{J/#psi}","pel");
   leg2->Draw("same");
 
-  c2->SaveAs("ptMassScaleJpsipp_zoom.pdf");
+  c2->SaveAs(Form("ptMassScaleJpsipp%s.pdf",RDorMC.Data()));
 
   //Set up the output tree.
-  TString outFileName = "ptMassResJpsipp.root";
+  TString outFileName = Form("ptMassResJpsipp%s.root",RDorMC.Data());
   TFile* outFile = new TFile(outFileName.Data(),"recreate");
 
   //Make TGraphAsymmErrors:
