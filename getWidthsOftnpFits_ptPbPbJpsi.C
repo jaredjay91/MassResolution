@@ -16,7 +16,7 @@ void getWidthsOftnpFits_ptPbPbJpsi(int RD0MC1=0) {
 
   TString filename;
   if (RDorMC=="MC") filename = "PbPbJpsi/mine/tnp_Ana_MC_PbPb_Trg_L3Jpsi_cbGausPassFailPol1_TagMu5Filter_3.root";
-  else if (RDorMC=="RD") filename = "PbPbJpsi/mine/tnp_Ana_RD_PbPb_Trg_L3Jpsi_mass2834_TagMu5Filter_3.root";
+  else if (RDorMC=="RD") filename = "PbPbJpsi/mine/tnp_Ana_RD_PbPb_Trg_L3Jpsi_mass2834_TagMu5Filter_fixedfracS_3.root";
   TFile* f1 = TFile::Open(filename,"READ");
 
   cout << "starting loop" << endl;
@@ -41,9 +41,11 @@ void getWidthsOftnpFits_ptPbPbJpsi(int RD0MC1=0) {
       hsigma1Pass->SetBinError(i+1,sigma1Passerr);
 
       //sigma2Pass
-      RooRealVar* fracS_fitRes = (RooRealVar*)fitRes->floatParsFinal().find("fracS");
-      double fracSval = fracS_fitRes->getVal();
-      double fracSerr = fracS_fitRes->getError();
+      //RooRealVar* fracS_fitRes = (RooRealVar*)fitRes->floatParsFinal().find("fracS");
+      //double fracSval = fracS_fitRes->getVal();
+      //double fracSerr = fracS_fitRes->getError();
+      double fracSval = 2.06;
+      double fracSerr = 0.0;
 
       double sigma2Passval = fracSval*sigma1Passval;
       double sigma2Passerr = sigma2Passval*sqrt(pow(sigma1Passerr/sigma1Passval,2)+pow(fracSerr/fracSval,2));
@@ -96,14 +98,22 @@ void getWidthsOftnpFits_ptPbPbJpsi(int RD0MC1=0) {
     delete fitRes;
   }
 
+  hsigma1Pass->Scale(1/3.0969);//Divide by mass of Jpsi
+  hsigma2Pass->Scale(1/3.0969);//Divide by mass of Jpsi
+  hsigmaC->Scale(1/3.0969);//Divide by mass of Jpsi
+
   TCanvas* c1 = new TCanvas("c1","c1",0,0,400,400);
   c1->cd();
-  hsigmaC->Scale(1/3.0969);//Divide by mass of J/psi meson.
+  hsigma1Pass->SetTitle("Mass Res. at J/#psi peak (PbPb 5.02 TeV)");
   hsigmaC->SetTitle("Mass Res. at J/#psi peak (PbPb 5.02 TeV)");
-  hsigmaC->SetMinimum(0);
-  hsigmaC->SetMaximum(0.03);
-  hsigmaC->GetXaxis()->SetTitle("p_{T} (|#eta|<2.4)");
-  hsigmaC->Draw();
+  hsigma1Pass->SetMinimum(0);
+  hsigma1Pass->SetMaximum(0.03);
+  hsigma1Pass->GetXaxis()->SetTitle("p_{T} (|#eta|<2.4)");
+  hsigma1Pass->Draw();
+  hsigma2Pass->SetLineColor(kGreen+3);
+  hsigma2Pass->Draw("same");
+  hsigmaC->SetLineColor(kRed);
+  hsigmaC->Draw("same");
 
   TLegend* leg = new TLegend(0.7,0.8,0.9,0.9);
   leg->SetTextSize(19);

@@ -194,6 +194,7 @@ void getWidthsOftnpFits_PbPbJpsi(int RD0MC1=0) {
   TCanvas* c1 = new TCanvas("c1","c1",0,0,400,400);
   c1->cd();
   hsigma1Pass->SetTitle("Mass Res. at J/#psi peak (PbPb 5.02 TeV)");
+  hsigmaC->SetTitle("Mass Res. at J/#psi peak (PbPb 5.02 TeV)");
   hsigma1Pass->SetMinimum(0);
   hsigma1Pass->SetMaximum(0.03);
   hsigma1Pass->GetXaxis()->SetTitle("cBin");

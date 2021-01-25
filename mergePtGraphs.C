@@ -10,7 +10,9 @@ void removeXerrors(TGraphAsymmErrors* graph) {
 
 }
 
-void mergePtGraphs() {
+void mergePtGraphs(bool zoom=kTRUE) {
+  TString zoomString = "";
+  if (zoom) zoomString = "_zoom";
 
   gStyle->SetErrorX(0);//This doesn't do anything.
 
@@ -95,9 +97,11 @@ void mergePtGraphs() {
   //********* PbPb Jpsi ***********//
   TCanvas* c1PbPb = new TCanvas("c1PbPb","c1PbPb",0,0,400,400);
   c1PbPb->cd();
+  gsigmaJpsiPbPbRD->SetTitle("Mass Res. at J/#psi peak (pp 5.02 TeV)");
   gsigmaJpsiPbPbRD->SetMinimum(0);
   gsigmaJpsiPbPbRD->SetMaximum(0.035);
   gsigmaJpsiPbPbRD->GetXaxis()->SetTitle("p_{T} (2.1<|#eta|<2.4)");
+  if (zoom) gsigmaJpsiPbPbRD->GetXaxis()->SetRangeUser(1.3,8);
   gsigmaJpsiPbPbRD->Draw("AP");
   gsigmaJpsiPbPbRD->SetMarkerStyle(20);
   gsigmaJpsiPbPbRD->SetMarkerColor(kRed);
@@ -108,8 +112,8 @@ void mergePtGraphs() {
   gsigmaJpsiPbPbMC->SetLineColor(kRed);
   gsigmaJpsiPbPbMC->Draw("same P");
 
-  c1PbPb->SaveAs("FinalPlots/ptMassResJpsiPbPb.pdf");
-  c1PbPb->SaveAs("FinalPlots/ptMassResJpsiPbPb.png");
+  c1PbPb->SaveAs(Form("FinalPlots/ptMassResJpsiPbPb%s.pdf",zoomString.Data()));
+  c1PbPb->SaveAs(Form("FinalPlots/ptMassResJpsiPbPb%s.png",zoomString.Data()));
 
 
   //********* PbPb Z ***********//
@@ -135,9 +139,11 @@ void mergePtGraphs() {
   //********* pPb Jpsi ***********//
   TCanvas* c1pPb = new TCanvas("c1pPb","c1pPb",0,0,400,400);
   c1pPb->cd();
+  gsigmaJpsipPbRD->SetTitle("Mass Res. at J/#psi peak (pp 5.02 TeV)");
   gsigmaJpsipPbRD->SetMinimum(0);
   gsigmaJpsipPbRD->SetMaximum(0.035);
   gsigmaJpsipPbRD->GetXaxis()->SetTitle("p_{T} (2.1<|#eta|<2.4)");
+  if (zoom) gsigmaJpsipPbRD->GetXaxis()->SetRangeUser(1.3,8);
   gsigmaJpsipPbRD->Draw("AP");
   gsigmaJpsipPbRD->SetMarkerStyle(21);
   gsigmaJpsipPbRD->SetMarkerColor(kBlue);
@@ -148,8 +154,8 @@ void mergePtGraphs() {
   gsigmaJpsipPbMC->SetLineColor(kBlue);
   gsigmaJpsipPbMC->Draw("same P");
 
-  c1pPb->SaveAs("FinalPlots/ptMassResJpsipPb.pdf");
-  c1pPb->SaveAs("FinalPlots/ptMassResJpsipPb.png");
+  c1pPb->SaveAs(Form("FinalPlots/ptMassResJpsipPb%s.pdf",zoomString.Data()));
+  c1pPb->SaveAs(Form("FinalPlots/ptMassResJpsipPb%s.png",zoomString.Data()));
 
 
   //********* pPb Z ***********//
@@ -174,9 +180,11 @@ void mergePtGraphs() {
   //********* pp Jpsi ***********//
   TCanvas* c1pp = new TCanvas("c1pp","c1pp",0,0,400,400);
   c1pp->cd();
+  gsigmaJpsippRD->SetTitle("Mass Res. at J/#psi peak (pp 5.02 TeV)");
   gsigmaJpsippRD->SetMinimum(0);
   gsigmaJpsippRD->SetMaximum(0.035);
   gsigmaJpsippRD->GetXaxis()->SetTitle("p_{T} (2.1<|#eta|<2.4)");
+  if (zoom) gsigmaJpsippRD->GetXaxis()->SetRangeUser(1.3,8);
   gsigmaJpsippRD->Draw("AP");
   gsigmaJpsippRD->SetMarkerStyle(33);
   gsigmaJpsippRD->SetMarkerColor(kBlack);
@@ -187,8 +195,8 @@ void mergePtGraphs() {
   //gsigmaJpsippMC->SetLineColor(kBlack);
   //gsigmaJpsippMC->Draw("same P");
 
-  c1pp->SaveAs("FinalPlots/ptMassResJpsipp.pdf");
-  c1pp->SaveAs("FinalPlots/ptMassResJpsipp.png");
+  c1pp->SaveAs(Form("FinalPlots/ptMassResJpsipp%s.pdf",zoomString.Data()));
+  c1pp->SaveAs(Form("FinalPlots/ptMassResJpsipp%s.png",zoomString.Data()));
 
 
   //********* pp Z ***********//
@@ -219,6 +227,7 @@ void mergePtGraphs() {
   gmassJpsiPbPbRD->SetMinimum(0.99);
   gmassJpsiPbPbRD->SetMaximum(1.005);
   gmassJpsiPbPbRD->GetXaxis()->SetTitle("p_{T} (2.1<|#eta|<2.4)");
+  if (zoom) gmassJpsiPbPbRD->GetXaxis()->SetRangeUser(1.3,8);
   gmassJpsiPbPbRD->Draw("AP");
   gmassJpsiPbPbRD->SetMarkerStyle(20);
   gmassJpsiPbPbRD->SetMarkerColor(kRed);
@@ -229,8 +238,8 @@ void mergePtGraphs() {
   gmassJpsiPbPbMC->SetLineColor(kRed);
   gmassJpsiPbPbMC->Draw("same P");
 
-  c3PbPb->SaveAs("FinalPlots/ptMassScaleJpsiPbPb.pdf");
-  c3PbPb->SaveAs("FinalPlots/ptMassScaleJpsiPbPb.png");
+  c3PbPb->SaveAs(Form("FinalPlots/ptMassScaleJpsiPbPb%s.pdf",zoomString.Data()));
+  c3PbPb->SaveAs(Form("FinalPlots/ptMassScaleJpsiPbPb%s.png",zoomString.Data()));
 
 
   //********* PbPb Z ***********//
@@ -259,6 +268,7 @@ void mergePtGraphs() {
   gmassJpsipPbRD->SetMinimum(0.99);
   gmassJpsipPbRD->SetMaximum(1.005);
   gmassJpsipPbRD->GetXaxis()->SetTitle("p_{T} (2.1<|#eta|<2.4)");
+  if (zoom) gmassJpsipPbRD->GetXaxis()->SetRangeUser(1.3,8);
   gmassJpsipPbRD->Draw("AP");
   gmassJpsipPbRD->SetMarkerStyle(21);
   gmassJpsipPbRD->SetMarkerColor(kBlue);
@@ -269,8 +279,8 @@ void mergePtGraphs() {
   gmassJpsipPbMC->SetLineColor(kBlue);
   gmassJpsipPbMC->Draw("same P");
 
-  c3pPb->SaveAs("FinalPlots/ptMassScaleJpsipPb.pdf");
-  c3pPb->SaveAs("FinalPlots/ptMassScaleJpsipPb.png");
+  c3pPb->SaveAs(Form("FinalPlots/ptMassScaleJpsipPb%s.pdf",zoomString.Data()));
+  c3pPb->SaveAs(Form("FinalPlots/ptMassScaleJpsipPb%s.png",zoomString.Data()));
 
 
   //********* pPb Z ***********//
@@ -298,6 +308,7 @@ void mergePtGraphs() {
   gmassJpsippRD->SetMinimum(0.99);
   gmassJpsippRD->SetMaximum(1.005);
   gmassJpsippRD->GetXaxis()->SetTitle("p_{T} (2.1<|#eta|<2.4)");
+  if (zoom) gmassJpsippRD->GetXaxis()->SetRangeUser(1.3,8);
   gmassJpsippRD->Draw("AP");
   gmassJpsippRD->SetMarkerStyle(33);
   gmassJpsippRD->SetMarkerColor(kBlack);
@@ -308,8 +319,8 @@ void mergePtGraphs() {
   //gmassJpsippMC->SetLineColor(kBlack);
   //gmassJpsippMC->Draw("same P");
 
-  c3pp->SaveAs("FinalPlots/ptMassScaleJpsipp.pdf");
-  c3pp->SaveAs("FinalPlots/ptMassScaleJpsipp.png");
+  c3pp->SaveAs(Form("FinalPlots/ptMassScaleJpsipp%s.pdf",zoomString.Data()));
+  c3pp->SaveAs(Form("FinalPlots/ptMassScaleJpsipp%s.png",zoomString.Data()));
 
 
   //********* pp Z ***********//
@@ -330,6 +341,7 @@ void mergePtGraphs() {
 
   c4pp->SaveAs("FinalPlots/ptMassScaleZpp.pdf");
   c4pp->SaveAs("FinalPlots/ptMassScaleZpp.png");
+
 
 
   //Write everything to the output file

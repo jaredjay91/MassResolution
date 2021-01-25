@@ -131,6 +131,7 @@ void getWidthsOftnpFits_ptppJpsi(int RD0MC1=0) {
   TCanvas* c1 = new TCanvas("c1","c1",0,0,400,400);
   c1->cd();
   hsigma1->SetTitle("Mass Res. at J/#psi peak (pp 5.02 TeV)");
+  hsigmaC->SetTitle("Mass Res. at J/#psi peak (pp 5.02 TeV)");
   hsigma1->SetMinimum(0);
   hsigma1->SetMaximum(0.03);
   hsigma1->GetXaxis()->SetTitle("p_{T} (2.1<|#eta|<2.4)");

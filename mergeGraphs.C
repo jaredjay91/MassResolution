@@ -41,18 +41,18 @@ void mergeGraphs() {
   TFile* fZpPbMC = TFile::Open("Results/MassResZpPbMC.root","READ");
   TGraphAsymmErrors* gsigmaZpPbMC = (TGraphAsymmErrors*)fZpPbMC->Get("Graph_from_hsigma");
   TGraphAsymmErrors* gmassZpPbMC = (TGraphAsymmErrors*)fZpPbMC->Get("Graph_from_hmass");
-  //TFile* fZppMC = TFile::Open("Results/MassResZppMC.root","READ");
-  //TGraphAsymmErrors* gsigmaZppMC = (TGraphAsymmErrors*)fZppMC->Get("Graph_from_hsigma");
-  //TGraphAsymmErrors* gmassZppMC = (TGraphAsymmErrors*)fZppMC->Get("Graph_from_hmass");
+  TFile* fZppMC = TFile::Open("Results/MassResZppMC.root","READ");
+  TGraphAsymmErrors* gsigmaZppMC = (TGraphAsymmErrors*)fZppMC->Get("Graph_from_hsigma");
+  TGraphAsymmErrors* gmassZppMC = (TGraphAsymmErrors*)fZppMC->Get("Graph_from_hmass");
   TFile* fJpsiPbPbMC = TFile::Open("Results/MassResJpsiPbPbMC.root","READ");
   TGraphAsymmErrors* gsigmaJpsiPbPbMC = (TGraphAsymmErrors*)fJpsiPbPbMC->Get("Graph_from_hsigmaC");
   TGraphAsymmErrors* gmassJpsiPbPbMC = (TGraphAsymmErrors*)fJpsiPbPbMC->Get("Graph_from_hmass");
   TFile* fJpsipPbMC = TFile::Open("Results/MassResJpsipPbMC.root","READ");
   TGraphAsymmErrors* gsigmaJpsipPbMC = (TGraphAsymmErrors*)fJpsipPbMC->Get("Graph_from_hsigmaC");
   TGraphAsymmErrors* gmassJpsipPbMC = (TGraphAsymmErrors*)fJpsipPbMC->Get("Graph_from_hmass");
-  //TFile* fJpsippMC = TFile::Open("Results/MassResJpsippMC.root","READ");
-  //TGraphAsymmErrors* gsigmaJpsippMC = (TGraphAsymmErrors*)fJpsippMC->Get("Graph_from_hsigmaC");
-  //TGraphAsymmErrors* gmassJpsippMC = (TGraphAsymmErrors*)fJpsippMC->Get("Graph_from_hmass");
+  TFile* fJpsippMC = TFile::Open("Results/MassResJpsippMC.root","READ");
+  TGraphAsymmErrors* gsigmaJpsippMC = (TGraphAsymmErrors*)fJpsippMC->Get("Graph_from_hsigmaC");
+  TGraphAsymmErrors* gmassJpsippMC = (TGraphAsymmErrors*)fJpsippMC->Get("Graph_from_hmass");
 
 
   //Remove X error bars:
@@ -73,17 +73,17 @@ void mergeGraphs() {
 
   removeXerrors(gsigmaZPbPbMC);
   removeXerrors(gsigmaZpPbMC);
-  //removeXerrors(gsigmaZppMC);
+  removeXerrors(gsigmaZppMC);
   removeXerrors(gsigmaJpsiPbPbMC);
   removeXerrors(gsigmaJpsipPbMC);
-  //removeXerrors(gsigmaJpsippMC);
+  removeXerrors(gsigmaJpsippMC);
 
   removeXerrors(gmassZPbPbMC);
   removeXerrors(gmassZpPbMC);
-  //removeXerrors(gmassZppMC);
+  removeXerrors(gmassZppMC);
   removeXerrors(gmassJpsiPbPbMC);
   removeXerrors(gmassJpsipPbMC);
-  //removeXerrors(gmassJpsippMC);
+  removeXerrors(gmassJpsippMC);
 
   cout << "Finished removing X errors." << endl;
 
@@ -133,10 +133,10 @@ void mergeGraphs() {
   gsigmaZpPbMC->SetMarkerColor(kBlue);
   gsigmaZpPbMC->SetLineColor(kBlue);
   gsigmaZpPbMC->Draw("same P");
-  //gsigmaZppMC->SetMarkerStyle(27);
-  //gsigmaZppMC->SetMarkerColor(kBlack);
-  //gsigmaZppMC->SetLineColor(kBlack);
-  //gsigmaZppMC->Draw("same P");
+  gsigmaZppMC->SetMarkerStyle(27);
+  gsigmaZppMC->SetMarkerColor(kBlack);
+  gsigmaZppMC->SetLineColor(kBlack);
+  gsigmaZppMC->Draw("same P");
 
   TLegend* leg1 = new TLegend(0.55,0.15,0.89,0.45);
   leg1->SetTextSize(0.04);
@@ -148,7 +148,7 @@ void mergeGraphs() {
   leg1->AddEntry(gsigmaZppRD,"pp Data 5.02 TeV","pe");
   leg1->AddEntry(gsigmaZPbPbMC,"PbPb MC 5.02 TeV","pe");
   leg1->AddEntry(gsigmaZpPbMC,"pPb MC 8.16 TeV","pe");
-  //leg1->AddEntry(gsigmaZppMC,"pp MC 5.02 TeV","pe");
+  leg1->AddEntry(gsigmaZppMC,"pp MC 5.02 TeV","pe");
   leg1->Draw("same");
 
 
@@ -193,10 +193,10 @@ void mergeGraphs() {
   gmassZpPbMC->SetMarkerColor(kBlue);
   gmassZpPbMC->SetLineColor(kBlue);
   gmassZpPbMC->Draw("same P");
-  //gmassZppMC->SetMarkerStyle(27);
-  //gmassZppMC->SetMarkerColor(kBlack);
-  //gmassZppMC->SetLineColor(kBlack);
-  //gmassZppMC->Draw("same P");
+  gmassZppMC->SetMarkerStyle(27);
+  gmassZppMC->SetMarkerColor(kBlack);
+  gmassZppMC->SetLineColor(kBlack);
+  gmassZppMC->Draw("same P");
 
   TLegend* leg2 = new TLegend(0.55,0.15,0.89,0.45);
   leg2->SetTextSize(0.04);
@@ -208,7 +208,7 @@ void mergeGraphs() {
   leg2->AddEntry(gmassZppRD,"pp Data 5.02 TeV","pe");
   leg2->AddEntry(gmassZPbPbMC,"PbPb MC 5.02 TeV","pe");
   leg2->AddEntry(gmassZpPbMC,"pPb MC 8.16 TeV","pe");
-  //leg2->AddEntry(gmassZppMC,"pp MC 5.02 TeV","pe");
+  leg2->AddEntry(gmassZppMC,"pp MC 5.02 TeV","pe");
   leg2->Draw("same");
 
   TLine* l2 = new TLine(0,1,3000,1);
@@ -258,10 +258,10 @@ void mergeGraphs() {
   gsigmaJpsipPbMC->SetMarkerColor(kBlue);
   gsigmaJpsipPbMC->SetLineColor(kBlue);
   gsigmaJpsipPbMC->Draw("same P");
-  //gsigmaJpsippMC->SetMarkerStyle(27);
-  //gsigmaJpsippMC->SetMarkerColor(kBlack);
-  //gsigmaJpsippMC->SetLineColor(kBlack);
-  //gsigmaJpsippMC->Draw("same P");
+  gsigmaJpsippMC->SetMarkerStyle(27);
+  gsigmaJpsippMC->SetMarkerColor(kBlack);
+  gsigmaJpsippMC->SetLineColor(kBlack);
+  gsigmaJpsippMC->Draw("same P");
 
   TLegend* leg3 = new TLegend(0.55,0.15,0.89,0.45);
   leg3->SetTextSize(0.04);
@@ -273,7 +273,7 @@ void mergeGraphs() {
   leg3->AddEntry(gsigmaJpsippRD,"pp Data 5.02 TeV","pe");
   leg3->AddEntry(gsigmaJpsiPbPbMC,"PbPb MC 5.02 TeV","pe");
   leg3->AddEntry(gsigmaJpsipPbMC,"pPb MC 8.16 TeV","pe");
-  //leg3->AddEntry(gsigmaJpsippMC,"pp MC 5.02 TeV","pe");
+  leg3->AddEntry(gsigmaJpsippMC,"pp MC 5.02 TeV","pe");
   leg3->Draw("same");
 
 
@@ -318,10 +318,10 @@ void mergeGraphs() {
   gmassJpsipPbMC->SetMarkerColor(kBlue);
   gmassJpsipPbMC->SetLineColor(kBlue);
   gmassJpsipPbMC->Draw("same P");
-  //gmassJpsippMC->SetMarkerStyle(27);
-  //gmassJpsippMC->SetMarkerColor(kBlack);
-  //gmassJpsippMC->SetLineColor(kBlack);
-  //gmassJpsippMC->Draw("same P");
+  gmassJpsippMC->SetMarkerStyle(27);
+  gmassJpsippMC->SetMarkerColor(kBlack);
+  gmassJpsippMC->SetLineColor(kBlack);
+  gmassJpsippMC->Draw("same P");
 
   TLegend* leg4 = new TLegend(0.55,0.15,0.89,0.45);
   leg4->SetTextSize(0.04);
@@ -333,7 +333,7 @@ void mergeGraphs() {
   leg4->AddEntry(gmassJpsippRD,"pp Data 5.02 TeV","pe");
   leg4->AddEntry(gmassJpsiPbPbMC,"PbPb MC 5.02 TeV","pe");
   leg4->AddEntry(gmassJpsipPbMC,"pPb MC 8.16 TeV","pe");
-  //leg4->AddEntry(gmassJpsippMC,"pp MC 5.02 TeV","pe");
+  leg4->AddEntry(gmassJpsippMC,"pp MC 5.02 TeV","pe");
   leg4->Draw("same");
 
   TLine* l4 = new TLine(0,1,3000,1);

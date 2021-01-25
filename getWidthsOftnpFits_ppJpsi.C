@@ -16,16 +16,28 @@ void getWidthsOftnpFits_ppJpsi(int RD0MC1=0) {
   TH1D* hsigmaC = new TH1D("hsigmaC","hsigmaC",numbins,ntracksbins);
   TH1D* hmass = new TH1D("hmass","hmass",numbins,ntracksbins);
 
-  TFile* f1 = TFile::Open("ppJpsi/tnp_fitOutput_HybridSoftID_data_pp_CBGPlusPol1.root","READ");
+  TString filename;
+  TString fitResPath;
+  if (RD0MC1==0) {
+    //filename = "ppJpsi/tnp_fitOutput_HybridSoftID_data_pp_CBGPlusPol1.root";
+    //fitResPath = "tpTree/MuId_1bin/eta_bin0__pt_bin0__Glb_true__InAcceptance_2018_Loose_true__CBGPlusPol1/fitresults;1";
+    filename = "ppJpsi/tnp_fitOutput_MuonIDTrigger_fromTrkMuon_TightAcceptance_data_pp_pol1_Jared.root";
+    fitResPath = "tpTree/MuIdTrg_1bin/eta_bin0__pt_bin0__InAcceptance_2018_Tight_true__TM_true__cbGausPassFailPol1/fitresults;1";
+  }
+  else if (RD0MC1==1) {
+    filename = "ppJpsi/tnp_fitOutput_MuonIDTrigger_fromTrkMuon_TightAcceptance_MC_pp_pol1_Jared.root";
+    fitResPath = "tpTree/MuIdTrg_1bin/eta_bin0__pt_bin0__InAcceptance_2018_Tight_true__TM_true__cbGausPassFailPol1/fitresults;1";
+  }
+  TFile* f1 = TFile::Open(filename,"READ");
 
   cout << "starting loop" << endl;
     for (int i=0; i<numbins; i++) {
-      RooFitResult* fitRes = (RooFitResult*)f1->Get("tpTree/MuId_1bin/eta_bin0__pt_bin0__Glb_true__InAcceptance_2018_Loose_true__CBGPlusPol1/fitresults;1");//Change this to match whatever is in the file you're using.
+      RooFitResult* fitRes = (RooFitResult*)f1->Get(fitResPath);//Change this to match whatever is in the file you're using.
 
       fitRes->Print("v");
 
       //sigma1
-      RooRealVar* sigma1_fitRes = (RooRealVar*)fitRes->floatParsFinal().find("sigma1");
+      RooRealVar* sigma1_fitRes = (RooRealVar*)fitRes->floatParsFinal().find("sigma1Pass");
       double sigma1val = sigma1_fitRes->getVal();
       double sigma1err = sigma1_fitRes->getError();
 
@@ -35,15 +47,15 @@ void getWidthsOftnpFits_ppJpsi(int RD0MC1=0) {
       hsigma1->SetBinError(i+1,sigma1err);
 
       //sigma2
-      //RooRealVar* fracS_fitRes = (RooRealVar*)fitRes->floatParsFinal().find("fracS");
-      //double fracSval = fracS_fitRes->getVal();
-      //double fracSerr = fracS_fitRes->getError();
-      //double sigma2val = fracSval*sigma1val;
-      //double sigma2err = sigma2val*sqrt(pow(sigma1err/sigma1val,2)+pow(fracSerr/fracSval,2));
+      RooRealVar* fracS_fitRes = (RooRealVar*)fitRes->floatParsFinal().find("fracS");
+      double fracSval = fracS_fitRes->getVal();
+      double fracSerr = fracS_fitRes->getError();
+      double sigma2val = fracSval*sigma1val;
+      double sigma2err = sigma2val*sqrt(pow(sigma1err/sigma1val,2)+pow(fracSerr/fracSval,2));
 
-      RooRealVar* sigma2_fitRes = (RooRealVar*)fitRes->floatParsFinal().find("sigma2");
-      double sigma2val = sigma2_fitRes->getVal();
-      double sigma2err = sigma2_fitRes->getError();
+      //RooRealVar* sigma2_fitRes = (RooRealVar*)fitRes->floatParsFinal().find("sigma2");
+      //double sigma2val = sigma2_fitRes->getVal();
+      //double sigma2err = sigma2_fitRes->getError();
 
       cout << "sigma2" << " = " << sigma2val << " +/- " << sigma2err << " (" << abs(sigma2err/sigma2val)*100 << "%)" << endl;
 
@@ -91,7 +103,7 @@ void getWidthsOftnpFits_ppJpsi(int RD0MC1=0) {
     RooRealVar* efficiency_fitRes = (RooRealVar*)fitRes->floatParsFinal().find("efficiency");
     double efficiencyval = efficiency_fitRes->getVal();
     double efficiencyerr = efficiency_fitRes->getError();
-    RooRealVar* frac_fitRes = (RooRealVar*)fitRes->floatParsFinal().find("vFrac");
+    RooRealVar* frac_fitRes = (RooRealVar*)fitRes->floatParsFinal().find("frac");
     double fracval = frac_fitRes->getVal();
     double fracerr = frac_fitRes->getError();
 
@@ -131,6 +143,7 @@ void getWidthsOftnpFits_ppJpsi(int RD0MC1=0) {
   TCanvas* c1 = new TCanvas("c1","c1",0,0,400,400);
   c1->cd();
   hsigma1->SetTitle("Mass Res. at J/#psi peak (pp 5.02 TeV)");
+  hsigmaC->SetTitle("Mass Res. at J/#psi peak (pp 5.02 TeV)");
   hsigma1->SetMinimum(0);
   hsigma1->SetMaximum(0.03);
   hsigma1->GetXaxis()->SetTitle("Ntracks");
