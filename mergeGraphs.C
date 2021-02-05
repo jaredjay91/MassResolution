@@ -1,3 +1,6 @@
+#include "HeaderFiles/tdrstyle.C"
+#include "HeaderFiles/CMS_lumi.C"
+
 
 void removeXerrors(TGraphAsymmErrors* graph) {
 
@@ -112,7 +115,7 @@ void mergeGraphs() {
   //gsigmaZPbPbRD->GetYaxis()->SetLabelSize(0.05);
   //gsigmaZPbPbRD->GetYaxis()->SetTitleSize(0.05);
   gsigmaZPbPbRD->GetYaxis()->SetTitleOffset(1.5);
-  gsigmaZPbPbRD->GetYaxis()->SetTitle("Mass Resolution");
+  gsigmaZPbPbRD->GetYaxis()->SetTitle("Mass Resolution (#sigma_{CB}/m_{PDG}) at Z peak");
   gsigmaZPbPbRD->SetMarkerStyle(20);
   gsigmaZPbPbRD->SetMarkerColor(kRed);
   gsigmaZPbPbRD->SetLineColor(kRed);
@@ -149,6 +152,10 @@ void mergeGraphs() {
   leg1->AddEntry(gsigmaZPbPbMC,"PbPb MC 5.02 TeV","pe");
   leg1->AddEntry(gsigmaZpPbMC,"pPb MC 8.16 TeV","pe");
   leg1->AddEntry(gsigmaZppMC,"pp MC 5.02 TeV","pe");
+  TLegendEntry *header1 = (TLegendEntry*)leg1->GetListOfPrimitives()->First();
+  header1->SetTextAlign(32);
+  //header1->SetTextColor(2);
+  header1->SetTextSize(.06);
   leg1->Draw("same");
 
 
@@ -172,7 +179,7 @@ void mergeGraphs() {
   //gmassZPbPbRD->GetYaxis()->SetLabelSize(0.05);
   //gmassZPbPbRD->GetYaxis()->SetTitleSize(0.05);
   gmassZPbPbRD->GetYaxis()->SetTitleOffset(1.5);
-  gmassZPbPbRD->GetYaxis()->SetTitle("Mass Scaling");
+  gmassZPbPbRD->GetYaxis()->SetTitle("Mass Scale (m_{Fit}/m_{PDG}) at Z peak");
   gmassZPbPbRD->SetMarkerStyle(20);
   gmassZPbPbRD->SetMarkerColor(kRed);
   gmassZPbPbRD->SetLineColor(kRed);
@@ -209,6 +216,10 @@ void mergeGraphs() {
   leg2->AddEntry(gmassZPbPbMC,"PbPb MC 5.02 TeV","pe");
   leg2->AddEntry(gmassZpPbMC,"pPb MC 8.16 TeV","pe");
   leg2->AddEntry(gmassZppMC,"pp MC 5.02 TeV","pe");
+  TLegendEntry *header2 = (TLegendEntry*)leg2->GetListOfPrimitives()->First();
+  header2->SetTextAlign(32);
+  //header2->SetTextColor(2);
+  header2->SetTextSize(.06);
   leg2->Draw("same");
 
   TLine* l2 = new TLine(0,1,3000,1);
@@ -237,7 +248,7 @@ void mergeGraphs() {
   //gsigmaJpsiPbPbRD->GetYaxis()->SetLabelSize(0.05);
   //gsigmaJpsiPbPbRD->GetYaxis()->SetTitleSize(0.05);
   gsigmaJpsiPbPbRD->GetYaxis()->SetTitleOffset(1.5);
-  gsigmaJpsiPbPbRD->GetYaxis()->SetTitle("Mass Resolution");
+  gsigmaJpsiPbPbRD->GetYaxis()->SetTitle("Mass Resolution (#sigma_{avg}/m_{PDG}) at J/#psi peak");
   gsigmaJpsiPbPbRD->SetMarkerStyle(20);
   gsigmaJpsiPbPbRD->SetMarkerColor(kRed);
   gsigmaJpsiPbPbRD->SetLineColor(kRed);
@@ -274,6 +285,10 @@ void mergeGraphs() {
   leg3->AddEntry(gsigmaJpsiPbPbMC,"PbPb MC 5.02 TeV","pe");
   leg3->AddEntry(gsigmaJpsipPbMC,"pPb MC 8.16 TeV","pe");
   leg3->AddEntry(gsigmaJpsippMC,"pp MC 5.02 TeV","pe");
+  TLegendEntry *header3 = (TLegendEntry*)leg3->GetListOfPrimitives()->First();
+  header3->SetTextAlign(32);
+  //header3->SetTextColor(2);
+  header3->SetTextSize(.06);
   leg3->Draw("same");
 
 
@@ -297,7 +312,7 @@ void mergeGraphs() {
   //gmassJpsiPbPbRD->GetYaxis()->SetLabelSize(0.05);
   //gmassJpsiPbPbRD->GetYaxis()->SetTitleSize(0.05);
   gmassJpsiPbPbRD->GetYaxis()->SetTitleOffset(1.5);
-  gmassJpsiPbPbRD->GetYaxis()->SetTitle("Mass Scaling");
+  gmassJpsiPbPbRD->GetYaxis()->SetTitle("Mass Scale (m_{Fit}/m_{PDG}) at J/#psi peak");
   gmassJpsiPbPbRD->SetMarkerStyle(20);
   gmassJpsiPbPbRD->SetMarkerColor(kRed);
   gmassJpsiPbPbRD->SetLineColor(kRed);
@@ -334,6 +349,10 @@ void mergeGraphs() {
   leg4->AddEntry(gmassJpsiPbPbMC,"PbPb MC 5.02 TeV","pe");
   leg4->AddEntry(gmassJpsipPbMC,"pPb MC 8.16 TeV","pe");
   leg4->AddEntry(gmassJpsippMC,"pp MC 5.02 TeV","pe");
+  TLegendEntry *header4 = (TLegendEntry*)leg4->GetListOfPrimitives()->First();
+  header4->SetTextAlign(32);
+  //header4->SetTextColor(2);
+  header4->SetTextSize(.06);
   leg4->Draw("same");
 
   TLine* l4 = new TLine(0,1,3000,1);
@@ -341,13 +360,36 @@ void mergeGraphs() {
   l4->SetLineStyle(2);
   l4->Draw("same");
 
+  setTDRStyle();
+  writeExtraText = false;
+  extraText = "Preliminary";
 
+  TString label;
+  label="";
+  CMS_lumi(c1, 0 ,33);
+  CMS_lumi(c2, 0 ,33);
+  CMS_lumi(c3, 0 ,33);
+  CMS_lumi(c4, 0 ,33);
+
+  c1->cd();
+  c1->Update();
+  c2->cd();
+  c2->Update();
+  c3->cd();
+  c3->Update();
+  c4->cd();
+  c4->Update();
+
+  c1->cd();
   c1->SaveAs("FinalPlots/MassResZ.pdf");
   c1->SaveAs("FinalPlots/MassResZ.png");
+  c2->cd();
   c2->SaveAs("FinalPlots/MassScaleZ.pdf");
   c2->SaveAs("FinalPlots/MassScaleZ.png");
+  c3->cd();
   c3->SaveAs("FinalPlots/MassResJpsi.pdf");
   c3->SaveAs("FinalPlots/MassResJpsi.png");
+  c4->cd();
   c4->SaveAs("FinalPlots/MassScaleJpsi.pdf");
   c4->SaveAs("FinalPlots/MassScaleJpsi.png");
 
