@@ -10,7 +10,7 @@ void removeXerrors(TGraphAsymmErrors* graph) {
 
 }
 
-void mergePtGraphs(bool zoom=kTRUE) {
+void mergePtGraphs(bool zoom=kFALSE) {
   TString zoomString = "";
   if (zoom) zoomString = "_zoom";
 

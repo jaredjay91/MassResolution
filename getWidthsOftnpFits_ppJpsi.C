@@ -21,12 +21,16 @@ void getWidthsOftnpFits_ppJpsi(int RD0MC1=0) {
   if (RD0MC1==0) {
     //filename = "ppJpsi/tnp_fitOutput_HybridSoftID_data_pp_CBGPlusPol1.root";
     //fitResPath = "tpTree/MuId_1bin/eta_bin0__pt_bin0__Glb_true__InAcceptance_2018_Loose_true__CBGPlusPol1/fitresults;1";
-    filename = "ppJpsi/tnp_fitOutput_MuonIDTrigger_fromTrkMuon_TightAcceptance_data_pp_pol1_Jared.root";
-    fitResPath = "tpTree/MuIdTrg_1bin/eta_bin0__pt_bin0__InAcceptance_2018_Tight_true__TM_true__cbGausPassFailPol1/fitresults;1";
+    //filename = "ppJpsi/tnp_fitOutput_MuonIDTrigger_fromTrkMuon_TightAcceptance_data_pp_pol1_Jared.root";
+    //fitResPath = "tpTree/MuIdTrg_1bin/eta_bin0__pt_bin0__InAcceptance_2018_Tight_true__TM_true__cbGausPassFailPol1/fitresults;1";
+    filename = "ppJpsi/tnp_fitOutput_Trigger_data_pp_CBGPlusPol1_separateBarrel_Jared.root";
+    fitResPath = "tpTree/Trg_1bin/eta_bin0__pt_bin0__Glb_true__HybridSoftId_2018_true__InAcceptance_2018_Tight_true__TM_true__passedDXY_SOFT_true__passedDZ_SOFT_true__cbGausPassFailPol1/fitresults;1";
   }
   else if (RD0MC1==1) {
-    filename = "ppJpsi/tnp_fitOutput_MuonIDTrigger_fromTrkMuon_TightAcceptance_MC_pp_pol1_Jared.root";
-    fitResPath = "tpTree/MuIdTrg_1bin/eta_bin0__pt_bin0__InAcceptance_2018_Tight_true__TM_true__cbGausPassFailPol1/fitresults;1";
+    //filename = "ppJpsi/tnp_fitOutput_MuonIDTrigger_fromTrkMuon_TightAcceptance_MC_pp_pol1_Jared.root";
+    //fitResPath = "tpTree/MuIdTrg_1bin/eta_bin0__pt_bin0__InAcceptance_2018_Tight_true__TM_true__cbGausPassFailPol1/fitresults;1";
+    filename = "ppJpsi/tnp_fitOutput_Trigger_MC_pp_CBGPlusPol1_separateBarrel_Jared.root";
+    fitResPath = "tpTree/Trg_1bin/eta_bin0__pt_bin0__Glb_true__HybridSoftId_2018_true__InAcceptance_2018_Tight_true__TM_true__passedDXY_SOFT_true__passedDZ_SOFT_true__cbGausPassFailPol1/fitresults;1";
   }
   TFile* f1 = TFile::Open(filename,"READ");
 
