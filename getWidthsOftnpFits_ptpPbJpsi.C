@@ -160,7 +160,7 @@ void getWidthsOftnpFits_ptpPbJpsi(int RD0MC1=0) {
   TCanvas* c3 = new TCanvas("c3","c3",0,0,400,400);
   c3->cd();
   gsigma->SetMinimum(0);
-  gsigma->GetXaxis()->SetLimits(0,12);
+  //gsigma->GetXaxis()->SetLimits(0,12);
   gsigma->Draw("AP");
 
   TGraphAsymmErrors* gmass = new TGraphAsymmErrors(hmass);

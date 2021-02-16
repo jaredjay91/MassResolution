@@ -1,7 +1,7 @@
 
 
 
-void getWidthsOftnpFits_ptppJpsi(int RD0MC1=0) {
+void getWidthsOftnpFits_ptppJpsi_midrap(int RD0MC1=1) {
   TString RDorMC;
   if (RD0MC1==0) RDorMC = "RD";
   else if (RD0MC1==1) RDorMC = "MC";
@@ -29,7 +29,7 @@ void getWidthsOftnpFits_ptppJpsi(int RD0MC1=0) {
   cout << "starting loop" << endl;
     for (int i=0; i<numbins; i++) {
       //RooFitResult* fitRes = (RooFitResult*)f1->Get(Form("tpTree/MuId_abseta21_24/abseta_bin0__pt_bin%i__Glb_true__InAcceptance_2018_Loose_true__CBGPlusPol1/fitresults;1",i));//Change this to match whatever is in the file you're using.
-      RooFitResult* fitRes = (RooFitResult*)f1->Get(Form("tpTree/Trg_abseta21_24/abseta_bin0__pt_bin%i__Glb_true__HybridSoftId_2018_true__InAcceptance_2018_Tight_true__TM_true__passedDXY_SOFT_true__passedDZ_SOFT_true__cbGausPassFailPol1/fitresults;1",i));//Change this to match whatever is in the file you're using.
+      RooFitResult* fitRes = (RooFitResult*)f1->Get(Form("tpTree/Trg_abseta00_09/abseta_bin0__pt_bin%i__Glb_true__InAcceptance_2018_Tight_true__cbGausPassFailPol1/fitresults;1",i));//Change this to match whatever is in the file you're using.
 
       fitRes->Print("v");
 
@@ -143,8 +143,8 @@ void getWidthsOftnpFits_ptppJpsi(int RD0MC1=0) {
   hsigmaC->SetTitle("Mass Res. at J/#psi peak (pp 5.02 TeV)");
   hsigma1->SetMinimum(0);
   hsigma1->SetMaximum(0.03);
-  hsigma1->GetXaxis()->SetTitle("p_{T} (2.1<|#eta|<2.4)");
-  //hsigma1->GetXaxis()->SetRangeUser(1.2,12);//zoom in
+  hsigma1->GetXaxis()->SetTitle("p_{T} (0.0<|#eta|<0.9)");
+  //hsigma1->GetXaxis()->SetRangeUser(1.2,6);//zoom in
   hsigma1->Draw();
   hsigma2->SetLineColor(kGreen+3);
   hsigma2->Draw("same");
@@ -160,7 +160,7 @@ void getWidthsOftnpFits_ptppJpsi(int RD0MC1=0) {
   leg->AddEntry(hsigmaC,"combined","pel");
   leg->Draw("same");
 
-  c1->SaveAs(Form("Results/ptMassResJpsipp%s.pdf",RDorMC.Data()));
+  c1->SaveAs(Form("Results/ptMassResJpsipp%s_midrap.pdf",RDorMC.Data()));
 
   TCanvas* c2 = new TCanvas("c2","c2",400,0,400,400);
   c2->cd();
@@ -168,8 +168,8 @@ void getWidthsOftnpFits_ptppJpsi(int RD0MC1=0) {
   hmass->SetTitle("Mass Scale at J/#psi peak (pp 5.02 TeV)");
   hmass->SetMinimum(0.99);
   hmass->SetMaximum(1.01);
-  hmass->GetXaxis()->SetTitle("p_{T} (2.1<|#eta|<2.4)");
-  //hmass->GetXaxis()->SetRangeUser(1.2,12);//zoom in
+  hmass->GetXaxis()->SetTitle("p_{T} (0.0<|#eta|<0.9)");
+  //hmass->GetXaxis()->SetRangeUser(1.2,6);//zoom in
   hmass->Draw();
   TLine* l1 = new TLine(1.2,1,12,1);
   l1->SetLineColor(kRed);
@@ -183,10 +183,10 @@ void getWidthsOftnpFits_ptppJpsi(int RD0MC1=0) {
   leg2->AddEntry(hmass,"#mu/m_{J/#psi}","pel");
   leg2->Draw("same");
 
-  c2->SaveAs(Form("Results/ptMassScaleJpsipp%s.pdf",RDorMC.Data()));
+  c2->SaveAs(Form("Results/ptMassScaleJpsipp%s_midrap.pdf",RDorMC.Data()));
 
   //Set up the output tree.
-  TString outFileName = Form("Results/ptMassResJpsipp%s.root",RDorMC.Data());
+  TString outFileName = Form("Results/ptMassResJpsipp%s_midrap.root",RDorMC.Data());
   TFile* outFile = new TFile(outFileName.Data(),"recreate");
 
   //Make TGraphAsymmErrors:
@@ -195,7 +195,7 @@ void getWidthsOftnpFits_ptppJpsi(int RD0MC1=0) {
   c3->cd();
   gsigma->SetMinimum(0);
   gsigma->Draw("AP");
-  //gsigma->GetXaxis()->SetLimits(0,12);
+  //gsigma->GetXaxis()->SetLimits(0,6);
 
   TGraphAsymmErrors* gmass = new TGraphAsymmErrors(hmass);
   TCanvas* c4 = new TCanvas("c4","c4",0,0,400,400);
