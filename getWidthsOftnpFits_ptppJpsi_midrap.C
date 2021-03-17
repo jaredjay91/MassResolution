@@ -8,7 +8,7 @@ void getWidthsOftnpFits_ptppJpsi_midrap(int RD0MC1=1) {
 
   gStyle->SetOptStat(0);
   const static int numParams = 2;
-  double ptbins[11] = {1.2,1.8,2.2,3.0,3.5,4.0,4.5,5.5,8.0,12,30};
+  double ptbins[14] = {3.5, 4, 4.5, 5, 5.5, 6, 6.75, 7.5, 8.25, 9.75, 11.5, 15, 21, 30};
   const static int numbins = sizeof(ptbins)/sizeof(double)-1;
 
   TH1D* hsigma1 = new TH1D("hsigma1","hsigma1",numbins,ptbins);
@@ -133,9 +133,9 @@ void getWidthsOftnpFits_ptppJpsi_midrap(int RD0MC1=1) {
     delete fitRes;
   }
 
-  hsigma1->Scale(1/3.0969);//Divide by mass of Jpsi
-  hsigma2->Scale(1/3.0969);//Divide by mass of Jpsi
-  hsigmaC->Scale(1/3.0969);//Divide by mass of Jpsi
+  //hsigma1->Scale(1/3.0969);//Divide by mass of Jpsi
+  //hsigma2->Scale(1/3.0969);//Divide by mass of Jpsi
+  //hsigmaC->Scale(1/3.0969);//Divide by mass of Jpsi
 
   TCanvas* c1 = new TCanvas("c1","c1",0,0,400,400);
   c1->cd();

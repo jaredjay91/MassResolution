@@ -1,14 +1,15 @@
 
 
 
-void getWidthsOftnpFits_etapPbJpsi(int RD0MC1=1) {
+void getWidthsOftnpFits_etapPbJpsi(int RD0MC1=0) {
   TString RDorMC;
   if (RD0MC1==0) RDorMC = "RD";
   else if (RD0MC1==1) RDorMC = "MC";
 
   gStyle->SetOptStat(0);
   const static int numParams = 2;
-  double etabins[6] = {0.0, 0.8, 1.2, 1.6, 2.1, 2.4};
+  //double etabins[6] = {0.0, 0.8, 1.2, 1.6, 2.1, 2.4};
+  double etabins[7] = {0.0, 0.3, 0.9, 1.2, 1.6, 2.1, 2.4};
   const static int numbins = sizeof(etabins)/sizeof(double)-1;
 
   TH1D* hsigma1Pass = new TH1D("hsigma1Pass","hsigma1Pass",numbins,etabins);
@@ -17,8 +18,8 @@ void getWidthsOftnpFits_etapPbJpsi(int RD0MC1=1) {
   TH1D* hmass = new TH1D("hmass","hmass",numbins,etabins);
 
   TString filename;
-  if (RDorMC=="RD") filename = "pPbJpsi/tnp_Ana_RD_Trig_pPb_cbGausPassFailExp_2020_05_11.root";
-  else if (RDorMC=="MC") filename = "pPbJpsi/tnp_Ana_MC_Trig_pPb_cbGausPassFailExp_2020_05_11.root";
+  if (RDorMC=="RD") filename = "pPbJpsi/tnp_Ana_RD_Trig_pPb_cbGausPassFailExp_6.root";
+  else if (RDorMC=="MC") filename = "pPbJpsi/tnp_Ana_MC_Trig_pPb_cbGausPassFailExp_6.root";
 
   TFile* f1 = TFile::Open(filename,"READ");
 
@@ -26,8 +27,8 @@ void getWidthsOftnpFits_etapPbJpsi(int RD0MC1=1) {
     for (int i=0; i<numbins; i++) {
       cout << "reading bin " << i << endl;
       TString fitResPath;
-      if (RDorMC=="RD") fitResPath = Form("tpTree/Trig_absetadep/abseta_bin%i__pt_bin0__tag_nVertices_bin0__SoftID_true__probe_trg_acceptance_true__tag_HLT_PAL3Mu3_true__cbGausPassFailExp/fitresult_simPdf_data_binned;1",i);
-      else if (RDorMC=="MC") fitResPath = Form("tpTree/Trig_absetadep/abseta_bin%i__pt_bin0__tag_nVertices_bin0__SoftID_true__TM_true__probe_trg_acceptance_true__tag_HLT_PAL3Mu3_true__cbGausPassFailExp/fitresult_simPdf_data_binned;1",i);
+      if (RDorMC=="RD") fitResPath = Form("tpTree/Trig_absetadep/abseta_bin%i__pt_bin0__tag_nVertices_bin0__SoftID_true__probe_trg_acceptance_true__tag_HLT_PAL3Mu3_true__cbGausPassFailExp/fitresults;1",i);
+      else if (RDorMC=="MC") fitResPath = Form("tpTree/Trig_absetadep/abseta_bin%i__pt_bin0__tag_nVertices_bin0__SoftID_true__TM_true__probe_trg_acceptance_true__tag_HLT_PAL3Mu3_true__cbGausPassFailExp/fitresults;1",i);
       RooFitResult* fitRes = (RooFitResult*)f1->Get(fitResPath);//Change this to match whatever is in the file you're using.
 
       fitRes->Print("v");

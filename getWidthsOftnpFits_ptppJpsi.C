@@ -8,7 +8,7 @@ void getWidthsOftnpFits_ptppJpsi(int RD0MC1=0) {
 
   gStyle->SetOptStat(0);
   const static int numParams = 2;
-  double ptbins[11] = {1.2,1.8,2.2,3.0,3.5,4.0,4.5,5.5,8.0,12,30};
+  double ptbins[13] = {1.5, 1.9, 2.3, 2.7, 3, 3.5, 4.25, 5, 6, 7, 8.5, 13, 30};
   const static int numbins = sizeof(ptbins)/sizeof(double)-1;
 
   TH1D* hsigma1 = new TH1D("hsigma1","hsigma1",numbins,ptbins);

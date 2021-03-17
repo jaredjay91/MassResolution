@@ -275,8 +275,8 @@ void getWidthsOftnpFits_PbPbJpsi(int RD0MC1=0) {
 
   TGraphAsymmErrors* gmass = new TGraphAsymmErrors(hmass);
   for (int jBin=0; jBin<numbins; jBin++){
-    double eyh = gsigma->GetErrorYhigh(jBin);
-    double eyl = gsigma->GetErrorYhigh(jBin);
+    double eyh = gmass->GetErrorYhigh(jBin);
+    double eyl = gmass->GetErrorYhigh(jBin);
     double effY = 0;
     double effX = 0;
     ntracksval = 0;

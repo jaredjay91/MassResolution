@@ -42,4 +42,6 @@ root -b -l -q "getWidthsOftnpFits_etappZ.C(1)"
 root -b -l -q mergeGraphs.C
 root -b -l -q mergePtGraphs.C
 root -b -l -q mergeEtaGraphs.C
+root -b -l -q mergeEtaGraphsbyPeak.C
+root -b -l -q mergeEtaGraphsbySystem.C
 

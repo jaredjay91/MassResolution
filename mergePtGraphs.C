@@ -10,7 +10,7 @@ void removeXerrors(TGraphAsymmErrors* graph) {
 
 }
 
-void mergePtGraphs(bool zoom=kFALSE) {
+void mergePtGraphs(bool zoom=kTRUE) {
   TString zoomString = "";
   if (zoom) zoomString = "_zoom";
 
@@ -229,13 +229,13 @@ void mergePtGraphs(bool zoom=kFALSE) {
   TCanvas* c1pp_midrap = new TCanvas("c1pp_midrap","c1pp_midrap",0,0,400,400);
   c1pp_midrap->cd();
   gsigmaJpsippRD_midrap->SetTitle("Mass Res. at J/#psi peak (pp 5.02 TeV)");
-  gsigmaJpsippRD_midrap->SetMinimum(0);
-  gsigmaJpsippRD_midrap->SetMaximum(0.035);
-  //gsigmaJpsippRD_midrap->SetMinimum(0.02);
-  //gsigmaJpsippRD_midrap->SetMaximum(0.08);
+  //gsigmaJpsippRD_midrap->SetMinimum(0);
+  //gsigmaJpsippRD_midrap->SetMaximum(0.035);
+  gsigmaJpsippRD_midrap->SetMinimum(0.02);
+  gsigmaJpsippRD_midrap->SetMaximum(0.08);
   gsigmaJpsippRD_midrap->GetXaxis()->SetTitle("p_{T}^{#mu} (0.0<|#eta|<0.9)");
-  gsigmaJpsippRD_midrap->GetYaxis()->SetTitle("Mass Resolution (#sigma_{avg}/m_{PDG}) at J/#psi peak");
-  //gsigmaJpsippRD_midrap->GetYaxis()->SetTitle("#sigma_{avg} at J/#psi peak (GeV)");
+  //gsigmaJpsippRD_midrap->GetYaxis()->SetTitle("Mass Resolution (#sigma_{avg}/m_{PDG}) at J/#psi peak");
+  gsigmaJpsippRD_midrap->GetYaxis()->SetTitle("#sigma_{avg} at J/#psi peak (GeV)");
   if (zoom) gsigmaJpsippRD_midrap->GetXaxis()->SetRangeUser(0.0,8);
   else gsigmaJpsippRD_midrap->GetXaxis()->SetRangeUser(0.0,30);
   gsigmaJpsippRD_midrap->Draw("AP");

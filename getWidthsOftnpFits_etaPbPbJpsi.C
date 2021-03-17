@@ -6,7 +6,8 @@ void getWidthsOftnpFits_etaPbPbJpsi(int RD0MC1=0) {
 
   gStyle->SetOptStat(0);
   const static int numParams = 2;
-  double etabins[5] = {0,1.2,1.8,2.1,2.4};
+  //double etabins[5] = {0,1.2,1.8,2.1,2.4};
+  double etabins[7] = {0.0, 0.3, 0.9, 1.2, 1.6, 2.1, 2.4};
   const static int numbins = sizeof(etabins)/sizeof(double)-1;
 
   TH1D* hsigma1Pass = new TH1D("hsigma1Pass","hsigma1Pass",numbins,etabins);
