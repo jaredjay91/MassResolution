@@ -134,6 +134,9 @@ void getWidthsOftnpFits_etappJpsi(int RD0MC1=1) {
     delete fitRes;
   }
 
+  TH1D* hsigmaUnscaled = (TH1D*)hsigmaC->Clone("hsigmaUnscaled");
+  TH1D* hmassUnscaled = (TH1D*)hmass->Clone("hmassUnscaled");
+
   hsigma1->Scale(1/3.0969);//Divide by mass of Jpsi
   hsigma2->Scale(1/3.0969);//Divide by mass of Jpsi
   hsigmaC->Scale(1/3.0969);//Divide by mass of Jpsi
@@ -203,6 +206,17 @@ void getWidthsOftnpFits_etappJpsi(int RD0MC1=1) {
   c4->cd();
   gmass->Draw("AP");
 
+  TGraphAsymmErrors* gsigmaUnscaled = new TGraphAsymmErrors(hsigmaUnscaled);
+  TCanvas* c3Unscaled = new TCanvas("c3Unscaled","c3Unscaled",0,0,400,400);
+  c3Unscaled->cd();
+  gsigmaUnscaled->SetMinimum(0);
+  gsigmaUnscaled->Draw("AP");
+
+  TGraphAsymmErrors* gmassUnscaled = new TGraphAsymmErrors(hmassUnscaled);
+  TCanvas* c4Unscaled = new TCanvas("c4Unscaled","c4Unscaled",0,0,400,400);
+  c4Unscaled->cd();
+  gmassUnscaled->Draw("AP");
+
   //Write everything to the output file
   cout << "Writing to File " << outFileName << endl;
   outFile->cd();
@@ -210,6 +224,8 @@ void getWidthsOftnpFits_etappJpsi(int RD0MC1=1) {
   c2->Write();
   gsigma->Write();
   gmass->Write();
+  gsigmaUnscaled->Write();
+  gmassUnscaled->Write();
 
   f1->Close();
   delete f1;

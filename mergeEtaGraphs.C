@@ -35,6 +35,8 @@ void mergeEtaGraphs(bool zoom=kFALSE) {
   TFile* fJpsippRD = TFile::Open("Results/etaMassResJpsippRD.root","READ");
   TGraphAsymmErrors* gsigmaJpsippRD = (TGraphAsymmErrors*)fJpsippRD->Get("Graph_from_hsigmaC");
   TGraphAsymmErrors* gmassJpsippRD = (TGraphAsymmErrors*)fJpsippRD->Get("Graph_from_hmass");
+  TGraphAsymmErrors* gsigmaJpsippRDUnscaled = (TGraphAsymmErrors*)fJpsippRD->Get("Graph_from_hsigmaUnscaled");
+  TGraphAsymmErrors* gmassJpsippRDUnscaled = (TGraphAsymmErrors*)fJpsippRD->Get("Graph_from_hmassUnscaled");
 
   cout << "Loading graphs from MC files..." << endl;
   TFile* fZPbPbMC = TFile::Open("Results/etaMassResZPbPbMC.root","READ");
@@ -55,6 +57,8 @@ void mergeEtaGraphs(bool zoom=kFALSE) {
   TFile* fJpsippMC = TFile::Open("Results/etaMassResJpsippMC.root","READ");
   TGraphAsymmErrors* gsigmaJpsippMC = (TGraphAsymmErrors*)fJpsippMC->Get("Graph_from_hsigmaC");
   TGraphAsymmErrors* gmassJpsippMC = (TGraphAsymmErrors*)fJpsippMC->Get("Graph_from_hmass");
+  TGraphAsymmErrors* gsigmaJpsippMCUnscaled = (TGraphAsymmErrors*)fJpsippMC->Get("Graph_from_hsigmaUnscaled");
+  TGraphAsymmErrors* gmassJpsippMCUnscaled = (TGraphAsymmErrors*)fJpsippMC->Get("Graph_from_hmassUnscaled");
 
 
   //Remove X error bars:
@@ -224,6 +228,29 @@ void mergeEtaGraphs(bool zoom=kFALSE) {
   c1pp->SaveAs(Form("FinalPlots/etaMassResJpsipp%s.pdf",zoomString.Data()));
   c1pp->SaveAs(Form("FinalPlots/etaMassResJpsipp%s.png",zoomString.Data()));
 
+  //unscaled
+  TCanvas* c1ppUnscaled = new TCanvas("c1ppUnscaled","c1ppUnscaled",0,0,400,400);
+  c1ppUnscaled->cd();
+  gsigmaJpsippRDUnscaled->SetTitle("Mass Res. at J/#psi peak (pp 5.02 TeV)");
+  gsigmaJpsippRDUnscaled->SetMinimum(0.02);
+  gsigmaJpsippRDUnscaled->SetMaximum(0.08);
+  gsigmaJpsippRDUnscaled->GetXaxis()->SetLimits(0.0,2.4);
+  gsigmaJpsippRDUnscaled->GetXaxis()->SetTitle("|#eta^{#mu}|");
+  gsigmaJpsippRDUnscaled->GetYaxis()->SetTitle("Mass Resolution (#sigma_{avg}) at J/#psi peak");
+  gsigmaJpsippRDUnscaled->Draw("AP");
+  gsigmaJpsippRDUnscaled->SetMarkerStyle(33);
+  gsigmaJpsippRDUnscaled->SetMarkerColor(kBlack);
+  gsigmaJpsippRDUnscaled->SetLineColor(kBlack);
+  gsigmaJpsippRDUnscaled->Draw("AP");
+  gsigmaJpsippMCUnscaled->SetMarkerStyle(27);
+  gsigmaJpsippMCUnscaled->SetMarkerColor(kBlack);
+  gsigmaJpsippMCUnscaled->SetLineColor(kBlack);
+  gsigmaJpsippMCUnscaled->Draw("same P");
+
+  c1ppUnscaled->SetLeftMargin(0.15);
+  c1ppUnscaled->SetRightMargin(0.05);
+  c1ppUnscaled->SaveAs(Form("FinalPlots/etaMassResJpsipp%s_unscaled.pdf",zoomString.Data()));
+  c1ppUnscaled->SaveAs(Form("FinalPlots/etaMassResJpsipp%s_unscaled.png",zoomString.Data()));
 
   //********* pp Z ***********//
   TCanvas* c2pp = new TCanvas("c2pp","c2pp",0,0,400,400);
@@ -400,6 +427,29 @@ void mergeEtaGraphs(bool zoom=kFALSE) {
   c3pp->SetRightMargin(0.05);
   c3pp->SaveAs(Form("FinalPlots/etaMassScaleJpsipp%s.pdf",zoomString.Data()));
   c3pp->SaveAs(Form("FinalPlots/etaMassScaleJpsipp%s.png",zoomString.Data()));
+
+  //unscaled
+  TCanvas* c3ppUnscaled = new TCanvas("c3ppUnscaled","c3ppUnscaled",0,0,400,400);
+  c3ppUnscaled->cd();
+  gmassJpsippRDUnscaled->SetMinimum(3.08);
+  gmassJpsippRDUnscaled->SetMaximum(3.10);
+  gmassJpsippRDUnscaled->GetXaxis()->SetLimits(0.0,2.4);
+  gmassJpsippRDUnscaled->GetXaxis()->SetTitle("|#eta^{#mu}|");
+  gmassJpsippRDUnscaled->GetYaxis()->SetTitle("Mass Scale (m_{Fit}/m_{PDG}) at J/#psi peak");
+  gmassJpsippRDUnscaled->Draw("AP");
+  gmassJpsippRDUnscaled->SetMarkerStyle(33);
+  gmassJpsippRDUnscaled->SetMarkerColor(kBlack);
+  gmassJpsippRDUnscaled->SetLineColor(kBlack);
+  gmassJpsippRDUnscaled->Draw("AP");
+  gmassJpsippMCUnscaled->SetMarkerStyle(27);
+  gmassJpsippMCUnscaled->SetMarkerColor(kBlack);
+  gmassJpsippMCUnscaled->SetLineColor(kBlack);
+  gmassJpsippMCUnscaled->Draw("same P");
+
+  c3ppUnscaled->SetLeftMargin(0.15);
+  c3ppUnscaled->SetRightMargin(0.05);
+  c3ppUnscaled->SaveAs(Form("FinalPlots/etaMassScaleJpsipp%s_unscaled.pdf",zoomString.Data()));
+  c3ppUnscaled->SaveAs(Form("FinalPlots/etaMassScaleJpsipp%s_unscaled.png",zoomString.Data()));
 
 
   //********* pp Z ***********//

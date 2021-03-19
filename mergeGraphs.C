@@ -145,7 +145,7 @@ void mergeGraphs() {
 
   //********* Z BOSON MASS RESOLUTION ***********//
   cout << "Plotting Z boson mass resolution..." << endl;
-  TCanvas* c1 = new TCanvas("c1","c1",0,0,600,550);
+  TCanvas* c1 = new TCanvas("c1","c1",0,0,500,500);
   c1->cd();
 
   TPad *pad1a = new TPad("pad1a", "pad1a", 0, 0.14, 0.98, 1.0);
@@ -243,7 +243,7 @@ void mergeGraphs() {
 
   //********* Z BOSON MASS SCALING ***********//
   cout << "Plotting Z boson mass scaling..." << endl;
-  TCanvas* c2 = new TCanvas("c2","c2",0,0,600,550);
+  TCanvas* c2 = new TCanvas("c2","c2",0,0,500,500);
   c2->cd();
 
   TPad *pad2a = new TPad("pad2a", "pad2a", 0, 0.14, 0.98, 1.0);
@@ -347,7 +347,7 @@ void mergeGraphs() {
 
   //********* J/PSI MASS RESOLUTION ***********//
   cout << "Plotting J/psi mass resolution..." << endl;
-  TCanvas* c3 = new TCanvas("c3","c3",0,0,600,550);
+  TCanvas* c3 = new TCanvas("c3","c3",0,0,500,500);
   c3->cd();
 
   TPad *pad3a = new TPad("pad3a", "pad3a", 0, 0.14, 0.98, 1.0);
@@ -446,7 +446,7 @@ void mergeGraphs() {
 
   //********* J/PSI MASS SCALING ***********//
   cout << "Plotting J/psi mass scaling..." << endl;
-  TCanvas* c4 = new TCanvas("c4","c4",0,0,600,550);
+  TCanvas* c4 = new TCanvas("c4","c4",0,0,500,500);
   c4->cd();
 
   TPad *pad4a = new TPad("pad4a", "pad4a", 0, 0.14, 0.98, 1.0);

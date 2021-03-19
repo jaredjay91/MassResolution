@@ -1,3 +1,5 @@
+#include "HeaderFiles/tdrstyle.C"
+#include "HeaderFiles/CMS_lumi.C"
 
 void removeXerrors(TGraphAsymmErrors* graph) {
 
@@ -9,6 +11,53 @@ void removeXerrors(TGraphAsymmErrors* graph) {
   }
 
 }
+
+void DivideGraphs(TGraphAsymmErrors* gRD, TGraphAsymmErrors* gMC) {
+  int numpointsRD = gRD->GetN();
+  int numpointsMC = gMC->GetN();
+  if (numpointsRD != numpointsMC) {
+    cout << "ERROR: RD and MC have different bins!" << endl;
+    return;
+  }
+  for (int i=0; i<numpointsRD; i++) {
+    double eyhRD = gRD->GetErrorYhigh(i);
+    double eylRD = gRD->GetErrorYhigh(i);
+    double exhRD = gRD->GetErrorXhigh(i);
+    double exlRD = gRD->GetErrorXlow(i);
+    double YRD = 0;
+    double XRD = 0;
+    gRD->GetPoint(i,XRD,YRD);
+    double eyhMC = gMC->GetErrorYhigh(i);
+    double eylMC = gMC->GetErrorYhigh(i);
+    double exhMC = gMC->GetErrorXhigh(i);
+    double exlMC = gMC->GetErrorXlow(i);
+    double YMC = 0;
+    double XMC = 0;
+    gMC->GetPoint(i,XMC,YMC);
+    double ratio = YRD/YMC;
+    double eyhratio = ratio*sqrt(pow(eyhRD/YRD,2) + pow(eyhMC/YMC,2));
+    double eylratio = ratio*sqrt(pow(eylRD/YRD,2) + pow(eylMC/YMC,2));
+    gRD->SetPoint(i,XRD,ratio);
+    gRD->SetPointError(i, exlRD, exhRD, eylratio, eyhratio);
+  }
+  gRD->GetYaxis()->SetTitleOffset(0.43) ;
+  gRD->GetYaxis()->SetTitle("Data/MC") ;
+  gRD->GetYaxis()->SetTitleSize(0.14) ; //19
+  gRD->GetYaxis()->SetLabelSize(0.16) ; // 113
+  gRD->GetYaxis()->SetRangeUser(-3.8,3.8) ;
+  gRD->GetYaxis()->CenterTitle();
+  gRD->GetYaxis()->SetTickSize(0.04);
+  gRD->GetYaxis()->SetNdivisions(404);
+  gRD->GetXaxis()->SetTitleOffset(1.0) ;
+  gRD->GetXaxis()->SetLabelOffset(0.04) ;
+  gRD->GetXaxis()->SetLabelSize(0.16) ; //23
+  gRD->GetXaxis()->SetTitleSize(0.18) ;  //28
+  //gRD->GetXaxis()->CenterTitle();
+  gRD->GetXaxis()->SetTickSize(0.03);
+  gRD->GetXaxis()->SetLimits(0,2.4);
+  gRD->GetXaxis()->SetTitle("|#eta^{#mu}|");
+}
+
 
 void mergeEtaGraphsbyPeak(bool zoom=kFALSE) {
   TString zoomString = "";
@@ -95,14 +144,20 @@ void mergeEtaGraphsbyPeak(bool zoom=kFALSE) {
 //******** MASS RESOLUTION ********\\
 
   //********* PbPb Jpsi ***********//
-  TCanvas* c1PbPb = new TCanvas("c1PbPb","c1PbPb",0,0,400,400);
-  c1PbPb->cd();
+  TCanvas* c1 = new TCanvas("c1","c1",0,0,500,500);
+  c1->cd();
+  TPad *pad1a = new TPad("pad1a", "pad1a", 0, 0.14, 0.98, 1.0);
+  pad1a->SetTicks(1,1);
+  pad1a->Draw(); pad1a->cd();
   gsigmaJpsiPbPbRD->SetTitle("Mass Res. at J/#psi peak");
   gsigmaJpsiPbPbRD->SetMinimum(0);
   gsigmaJpsiPbPbRD->SetMaximum(0.035);
   gsigmaJpsiPbPbRD->GetXaxis()->SetLimits(0.0,2.4);
   gsigmaJpsiPbPbRD->GetXaxis()->SetTitle("|#eta^{#mu}|");
-  gsigmaJpsiPbPbRD->GetYaxis()->SetTitle("Mass Resolution (#sigma_{avg}/m_{PDG}) at J/#psi peak");
+  gsigmaJpsiPbPbRD->GetYaxis()->SetTitleOffset(1.7);
+  gsigmaJpsiPbPbRD->GetYaxis()->SetTitleSize(0.04);
+  gsigmaJpsiPbPbRD->GetYaxis()->SetLabelSize(0.04);
+  gsigmaJpsiPbPbRD->GetYaxis()->SetTitle("Mass Resolution (#sigma_{avg}/m_{PDG})");
   if (zoom) gsigmaJpsiPbPbRD->GetXaxis()->SetRangeUser(0.0,8);
   else gsigmaJpsiPbPbRD->GetXaxis()->SetRangeUser(0.0,30);
   gsigmaJpsiPbPbRD->Draw("AP");
@@ -132,36 +187,66 @@ void mergeEtaGraphsbyPeak(bool zoom=kFALSE) {
   gsigmaJpsippMC->SetMarkerColor(kBlack);
   gsigmaJpsippMC->SetLineColor(kBlack);
   gsigmaJpsippMC->Draw("same P");
-  TLegend* leg1 = new TLegend(0.17,0.6,0.45,0.85);
+  TLegend* leg1 = new TLegend(0.17,0.55,0.45,0.85);
   leg1->SetTextSize(0.04);
   //leg1->SetTextFont(43);
   leg1->SetBorderSize(0);
-  //leg1->SetHeader("Mass Res. at Z peak","C");
+  leg1->SetHeader("Mass Res. at J/#psi peak","C");
   leg1->AddEntry(gsigmaJpsiPbPbRD,"PbPb Data 5.02 TeV","pe");
   leg1->AddEntry(gsigmaJpsipPbRD,"pPb Data 8.16 TeV","pe");
   leg1->AddEntry(gsigmaJpsippRD,"pp Data 5.02 TeV","pe");
   leg1->AddEntry(gsigmaJpsiPbPbMC,"PbPb MC 5.02 TeV","pe");
   leg1->AddEntry(gsigmaJpsipPbMC,"pPb MC 8.16 TeV","pe");
   leg1->AddEntry(gsigmaJpsippMC,"pp MC 5.02 TeV","pe");
-  //TLegendEntry *header1 = (TLegendEntry*)leg1->GetListOfPrimitives()->First();
-  //header1->SetTextAlign(32);
+  TLegendEntry *header1 = (TLegendEntry*)leg1->GetListOfPrimitives()->First();
+  header1->SetTextAlign(12);
   //header1->SetTextColor(2);
-  //header1->SetTextSize(.06);
+  header1->SetTextSize(.06);
   leg1->Draw("same");
-  c1PbPb->SetLeftMargin(0.15);
-  c1PbPb->SetRightMargin(0.05);
-  c1PbPb->SaveAs(Form("FinalPlots/etaMassResJpsi%s.pdf",zoomString.Data()));
-  c1PbPb->SaveAs(Form("FinalPlots/etaMassResJpsi%s.png",zoomString.Data()));
+
+  TPad *pad1b = new TPad("pad1b", "pad1b", 0, 0, 0.98, 0.2);
+  pad1b->SetTopMargin(0); // Upper and lower plot are joined
+  pad1b->SetBottomMargin(0.4);
+  pad1a->SetLeftMargin(0.14);
+  pad1a->SetRightMargin(0.02);
+  pad1b->SetRightMargin(0.02);
+  pad1b->SetLeftMargin(0.14);
+  pad1b->SetTicks(1,1);
+  pad1b->cd();
+
+  TGraphAsymmErrors* gsigmaJpsiPbPbRDsf = (TGraphAsymmErrors*)gsigmaJpsiPbPbRD->Clone("gsigmaJpsiPbPbRDsf");
+  DivideGraphs(gsigmaJpsiPbPbRDsf,gsigmaJpsiPbPbMC);
+  gsigmaJpsiPbPbRD->GetXaxis()->SetLabelSize(0) ; //23
+  gsigmaJpsiPbPbRD->GetXaxis()->SetTitleSize(0) ;  //28
+  gsigmaJpsiPbPbRD->GetYaxis()->CenterTitle();
+  gsigmaJpsiPbPbRDsf->SetMinimum(0.75);
+  gsigmaJpsiPbPbRDsf->SetMaximum(1.25);
+  gsigmaJpsiPbPbRDsf->Draw("AP");
+  TGraphAsymmErrors* gsigmaJpsipPbRDsf = (TGraphAsymmErrors*)gsigmaJpsipPbRD->Clone("gsigmaJpsipPbRDsf");
+  DivideGraphs(gsigmaJpsipPbRDsf,gsigmaJpsipPbMC);
+  gsigmaJpsipPbRDsf->Draw("same P");
+  TGraphAsymmErrors* gsigmaJpsippRDsf = (TGraphAsymmErrors*)gsigmaJpsippRD->Clone("gsigmaJpsippRDsf");
+  DivideGraphs(gsigmaJpsippRDsf,gsigmaJpsippMC);
+  gsigmaJpsippRDsf->Draw("same P");
+  TLine *l1 = new TLine(0,1,2.4,1);
+  l1->SetLineStyle(9);
+  l1->Draw();
 
   //********* PbPb Z ***********//
-  TCanvas* c2PbPb = new TCanvas("c2PbPb","c2PbPb",0,0,400,400);
-  c2PbPb->cd();
+  TCanvas* c2 = new TCanvas("c2","c2",0,0,500,500);
+  c2->cd();
+  TPad *pad2a = new TPad("pad2a", "pad2a", 0, 0.14, 0.98, 1.0);
+  pad2a->SetTicks(1,1);
+  pad2a->Draw(); pad2a->cd();
   gsigmaZPbPbRD->SetTitle("Mass Res. at Z peak");
   gsigmaZPbPbRD->SetMinimum(0);
   gsigmaZPbPbRD->SetMaximum(0.035);
   gsigmaZPbPbRD->GetXaxis()->SetLimits(0.0,2.4);
   gsigmaZPbPbRD->GetXaxis()->SetTitle("|#eta^{#mu}|");
-  gsigmaZPbPbRD->GetYaxis()->SetTitle("Mass Resolution (#sigma_{CB}/m_{PDG}) at Z peak");
+  gsigmaZPbPbRD->GetYaxis()->SetTitleOffset(1.7);
+  gsigmaZPbPbRD->GetYaxis()->SetTitleSize(0.04);
+  gsigmaZPbPbRD->GetYaxis()->SetLabelSize(0.04);
+  gsigmaZPbPbRD->GetYaxis()->SetTitle("Mass Resolution (#sigma_{CB}/m_{PDG})");
   gsigmaZPbPbRD->Draw("AP");
   gsigmaZPbPbRD->SetMarkerStyle(20);
   gsigmaZPbPbRD->SetMarkerColor(kRed);
@@ -189,39 +274,69 @@ void mergeEtaGraphsbyPeak(bool zoom=kFALSE) {
   gsigmaZppMC->SetMarkerColor(kBlack);
   gsigmaZppMC->SetLineColor(kBlack);
   gsigmaZppMC->Draw("same P");
-  TLegend* leg1Z = new TLegend(0.17,0.6,0.45,0.85);
-  leg1Z->SetTextSize(0.04);
-  //leg1Z->SetTextFont(43);
-  leg1Z->SetBorderSize(0);
-  //leg1Z->SetHeader("Mass Res. at Z peak","C");
-  leg1Z->AddEntry(gsigmaZPbPbRD,"PbPb Data 5.02 TeV","pe");
-  leg1Z->AddEntry(gsigmaZpPbRD,"pPb Data 8.16 TeV","pe");
-  leg1Z->AddEntry(gsigmaZppRD,"pp Data 5.02 TeV","pe");
-  leg1Z->AddEntry(gsigmaZPbPbMC,"PbPb MC 5.02 TeV","pe");
-  leg1Z->AddEntry(gsigmaZpPbMC,"pPb MC 8.16 TeV","pe");
-  leg1Z->AddEntry(gsigmaZppMC,"pp MC 5.02 TeV","pe");
-  //TLegendEntry *header1 = (TLegendEntry*)leg1->GetListOfPrimitives()->First();
-  //header1->SetTextAlign(32);
-  //header1->SetTextColor(2);
-  //header1->SetTextSize(.06);
-  leg1Z->Draw("same");
-  c2PbPb->SetLeftMargin(0.15);
-  c2PbPb->SetRightMargin(0.05);
-  c2PbPb->SaveAs("FinalPlots/etaMassResZ.pdf");
-  c2PbPb->SaveAs("FinalPlots/etaMassResZ.png");
+  TLegend* leg2 = new TLegend(0.17,0.55,0.45,0.85);
+  leg2->SetTextSize(0.04);
+  //leg2->SetTextFont(43);
+  leg2->SetBorderSize(0);
+  leg2->SetHeader("Mass Res. at Z peak","C");
+  leg2->AddEntry(gsigmaZPbPbRD,"PbPb Data 5.02 TeV","pe");
+  leg2->AddEntry(gsigmaZpPbRD,"pPb Data 8.16 TeV","pe");
+  leg2->AddEntry(gsigmaZppRD,"pp Data 5.02 TeV","pe");
+  leg2->AddEntry(gsigmaZPbPbMC,"PbPb MC 5.02 TeV","pe");
+  leg2->AddEntry(gsigmaZpPbMC,"pPb MC 8.16 TeV","pe");
+  leg2->AddEntry(gsigmaZppMC,"pp MC 5.02 TeV","pe");
+  TLegendEntry *header2 = (TLegendEntry*)leg2->GetListOfPrimitives()->First();
+  header2->SetTextAlign(12);
+  //header2->SetTextColor(2);
+  header2->SetTextSize(.06);
+  leg2->Draw("same");
+
+  TPad *pad2b = new TPad("pad2b", "pad2b", 0, 0, 0.98, 0.2);
+  pad2b->SetTopMargin(0); // Upper and lower plot are joined
+  pad2b->SetBottomMargin(0.4);
+  pad2a->SetLeftMargin(0.14);
+  pad2a->SetRightMargin(0.02);
+  pad2b->SetRightMargin(0.02);
+  pad2b->SetLeftMargin(0.14);
+  pad2b->SetTicks(1,1);
+  pad2b->cd();
+
+  TGraphAsymmErrors* gsigmaZPbPbRDsf = (TGraphAsymmErrors*)gsigmaZPbPbRD->Clone("gsigmaZPbPbRDsf");
+  DivideGraphs(gsigmaZPbPbRDsf,gsigmaZPbPbMC);
+  gsigmaZPbPbRD->GetXaxis()->SetLabelSize(0) ; //23
+  gsigmaZPbPbRD->GetXaxis()->SetTitleSize(0) ;  //28
+  gsigmaZPbPbRD->GetYaxis()->CenterTitle();
+  gsigmaZPbPbRDsf->SetMinimum(0.75);
+  gsigmaZPbPbRDsf->SetMaximum(1.25);
+  gsigmaZPbPbRDsf->Draw("AP");
+  TGraphAsymmErrors* gsigmaZpPbRDsf = (TGraphAsymmErrors*)gsigmaZpPbRD->Clone("gsigmaZpPbRDsf");
+  DivideGraphs(gsigmaZpPbRDsf,gsigmaZpPbMC);
+  gsigmaZpPbRDsf->Draw("same P");
+  TGraphAsymmErrors* gsigmaZppRDsf = (TGraphAsymmErrors*)gsigmaZppRD->Clone("gsigmaZppRDsf");
+  DivideGraphs(gsigmaZppRDsf,gsigmaZppMC);
+  gsigmaZppRDsf->Draw("same P");
+  TLine *l2 = new TLine(0,1,2.4,1);
+  l2->SetLineStyle(9);
+  l2->Draw();
 
 
 //******** MASS SCALING ********\\
 
   //********* PbPb Jpsi ***********//
-  TCanvas* c3PbPb = new TCanvas("c3PbPb","c3PbPb",0,0,400,400);
-  c3PbPb->cd();
+  TCanvas* c3 = new TCanvas("c3","c3",0,0,500,500);
+  c3->cd();
+  TPad *pad3a = new TPad("pad3a", "pad3a", 0, 0.14, 0.98, 1.0);
+  pad3a->SetTicks(1,1);
+  pad3a->Draw(); pad3a->cd();
   gmassJpsiPbPbRD->SetTitle("Mass Scale at J/#psi peak");
-  gmassJpsiPbPbRD->SetMinimum(0.99);
+  gmassJpsiPbPbRD->SetMinimum(0.985);
   gmassJpsiPbPbRD->SetMaximum(1.005);
   gmassJpsiPbPbRD->GetXaxis()->SetLimits(0.0,2.4);
   gmassJpsiPbPbRD->GetXaxis()->SetTitle("|#eta^{#mu}|");
-  gmassJpsiPbPbRD->GetYaxis()->SetTitle("Mass Scale (m_{Fit}/m_{PDG}) at J/#psi peak");
+  gmassJpsiPbPbRD->GetYaxis()->SetTitleOffset(1.7);
+  gmassJpsiPbPbRD->GetYaxis()->SetTitleSize(0.04);
+  gmassJpsiPbPbRD->GetYaxis()->SetLabelSize(0.04);
+  gmassJpsiPbPbRD->GetYaxis()->SetTitle("Mass Scale (m_{Fit}/m_{PDG})");
   if (zoom) gmassJpsiPbPbRD->GetXaxis()->SetRangeUser(0.0,8);
   else gmassJpsiPbPbRD->GetXaxis()->SetRangeUser(0.0,30);
   gmassJpsiPbPbRD->Draw("AP");
@@ -251,41 +366,71 @@ void mergeEtaGraphsbyPeak(bool zoom=kFALSE) {
   gmassJpsippMC->SetMarkerColor(kBlack);
   gmassJpsippMC->SetLineColor(kBlack);
   gmassJpsippMC->Draw("same P");
-  TLegend* leg1JpsiScale = new TLegend(0.17,0.15,0.45,0.40);
-  leg1JpsiScale->SetTextSize(0.04);
-  //leg1JpsiScale->SetTextFont(43);
-  leg1JpsiScale->SetBorderSize(0);
-  //leg1JpsiScale->SetHeader("Mass Res. at Z peak","C");
-  leg1JpsiScale->AddEntry(gmassJpsiPbPbRD,"PbPb Data 5.02 TeV","pe");
-  leg1JpsiScale->AddEntry(gmassJpsipPbRD,"pPb Data 8.16 TeV","pe");
-  leg1JpsiScale->AddEntry(gmassJpsippRD,"pp Data 5.02 TeV","pe");
-  leg1JpsiScale->AddEntry(gmassJpsiPbPbMC,"PbPb MC 5.02 TeV","pe");
-  leg1JpsiScale->AddEntry(gmassJpsipPbMC,"pPb MC 8.16 TeV","pe");
-  leg1JpsiScale->AddEntry(gmassJpsippMC,"pp MC 5.02 TeV","pe");
-  //TLegendEntry *header1 = (TLegendEntry*)leg1->GetListOfPrimitives()->First();
-  //header1->SetTextAlign(32);
-  //header1->SetTextColor(2);
-  //header1->SetTextSize(.06);
-  leg1JpsiScale->Draw("same");
-  TLine* l3PbPb = new TLine(0,1,2.4,1);
-  l3PbPb->SetLineColor(kRed);
-  l3PbPb->SetLineStyle(2);
-  l3PbPb->Draw("same");
+  TLegend* leg3 = new TLegend(0.17,0.15,0.45,0.45);
+  leg3->SetTextSize(0.04);
+  //leg3->SetTextFont(43);
+  leg3->SetBorderSize(0);
+  leg3->SetHeader("Mass Scale at J/#psi peak","C");
+  leg3->AddEntry(gmassJpsiPbPbRD,"PbPb Data 5.02 TeV","pe");
+  leg3->AddEntry(gmassJpsipPbRD,"pPb Data 8.16 TeV","pe");
+  leg3->AddEntry(gmassJpsippRD,"pp Data 5.02 TeV","pe");
+  leg3->AddEntry(gmassJpsiPbPbMC,"PbPb MC 5.02 TeV","pe");
+  leg3->AddEntry(gmassJpsipPbMC,"pPb MC 8.16 TeV","pe");
+  leg3->AddEntry(gmassJpsippMC,"pp MC 5.02 TeV","pe");
+  TLegendEntry *header3 = (TLegendEntry*)leg3->GetListOfPrimitives()->First();
+  header3->SetTextAlign(12);
+  //header3->SetTextColor(2);
+  header3->SetTextSize(.06);
+  leg3->Draw("same");
+  TLine* l3a = new TLine(0,1,2.4,1);
+  l3a->SetLineColor(kRed);
+  l3a->SetLineStyle(2);
+  l3a->Draw("same");
 
-  c3PbPb->SetLeftMargin(0.15);
-  c3PbPb->SetRightMargin(0.05);
-  c3PbPb->SaveAs(Form("FinalPlots/etaMassScaleJpsi%s.pdf",zoomString.Data()));
-  c3PbPb->SaveAs(Form("FinalPlots/etaMassScaleJpsi%s.png",zoomString.Data()));
+  TPad *pad3b = new TPad("pad3b", "pad3b", 0, 0, 0.98, 0.2);
+  pad3b->SetTopMargin(0); // Upper and lower plot are joined
+  pad3b->SetBottomMargin(0.4);
+  pad3a->SetLeftMargin(0.14);
+  pad3a->SetRightMargin(0.02);
+  pad3b->SetRightMargin(0.02);
+  pad3b->SetLeftMargin(0.14);
+  pad3b->SetTicks(1,1);
+  pad3b->cd();
+
+  TGraphAsymmErrors* gmassJpsiPbPbRDsf = (TGraphAsymmErrors*)gmassJpsiPbPbRD->Clone("gmassJpsiPbPbRDsf");
+  DivideGraphs(gmassJpsiPbPbRDsf,gmassJpsiPbPbMC);
+  gmassJpsiPbPbRD->GetXaxis()->SetLabelSize(0) ; //23
+  gmassJpsiPbPbRD->GetXaxis()->SetTitleSize(0) ;  //28
+  gmassJpsiPbPbRD->GetYaxis()->CenterTitle();
+  gmassJpsiPbPbRDsf->SetMinimum(0.9965);
+  gmassJpsiPbPbRDsf->SetMaximum(1.0035);
+  gmassJpsiPbPbRDsf->Draw("AP");
+  TGraphAsymmErrors* gmassJpsipPbRDsf = (TGraphAsymmErrors*)gmassJpsipPbRD->Clone("gmassJpsipPbRDsf");
+  DivideGraphs(gmassJpsipPbRDsf,gmassJpsipPbMC);
+  gmassJpsipPbRDsf->Draw("same P");
+  TGraphAsymmErrors* gmassJpsippRDsf = (TGraphAsymmErrors*)gmassJpsippRD->Clone("gmassJpsippRDsf");
+  DivideGraphs(gmassJpsippRDsf,gmassJpsippMC);
+  gmassJpsippRDsf->Draw("same P");
+  TLine *l3 = new TLine(0,1,2.4,1);
+  l3->SetLineStyle(9);
+  l3->Draw();
+
 
   //********* PbPb Z ***********//
-  TCanvas* c4PbPb = new TCanvas("c4PbPb","c4PbPb",0,0,400,400);
-  c4PbPb->cd();
+  TCanvas* c4 = new TCanvas("c4","c4",0,0,500,500);
+  c4->cd();
+  TPad *pad4a = new TPad("pad4a", "pad4a", 0, 0.14, 0.98, 1.0);
+  pad4a->SetTicks(1,1);
+  pad4a->Draw(); pad4a->cd();
   gmassZPbPbRD->SetTitle("Mass Scale at Z peak");
-  gmassZPbPbRD->SetMinimum(0.99);
+  gmassZPbPbRD->SetMinimum(0.985);
   gmassZPbPbRD->SetMaximum(1.005);
   gmassZPbPbRD->GetXaxis()->SetLimits(0.0,2.4);
   gmassZPbPbRD->GetXaxis()->SetTitle("|#eta^{#mu}|");
-  gmassZPbPbRD->GetYaxis()->SetTitle("Mass Scale (m_{Fit}/m_{PDG}) at Z peak");
+  gmassZPbPbRD->GetYaxis()->SetTitleOffset(1.7);
+  gmassZPbPbRD->GetYaxis()->SetTitleSize(0.04);
+  gmassZPbPbRD->GetYaxis()->SetLabelSize(0.04);
+  gmassZPbPbRD->GetYaxis()->SetTitle("Mass Scale (m_{Fit}/m_{PDG})");
   gmassZPbPbRD->Draw("AP");
   gmassZPbPbRD->SetMarkerStyle(20);
   gmassZPbPbRD->SetMarkerColor(kRed);
@@ -313,39 +458,121 @@ void mergeEtaGraphsbyPeak(bool zoom=kFALSE) {
   gmassZppMC->SetMarkerColor(kBlack);
   gmassZppMC->SetLineColor(kBlack);
   gmassZppMC->Draw("same P");
-  TLegend* leg1ZScale = new TLegend(0.17,0.15,0.45,0.40);
-  leg1ZScale->SetTextSize(0.04);
-  //leg1ZScale->SetTextFont(43);
-  leg1ZScale->SetBorderSize(0);
-  //leg1ZScale->SetHeader("Mass Res. at Z peak","C");
-  leg1ZScale->AddEntry(gmassZPbPbRD,"PbPb Data 5.02 TeV","pe");
-  leg1ZScale->AddEntry(gmassZpPbRD,"pPb Data 8.16 TeV","pe");
-  leg1ZScale->AddEntry(gmassZppRD,"pp Data 5.02 TeV","pe");
-  leg1ZScale->AddEntry(gmassZPbPbMC,"PbPb MC 5.02 TeV","pe");
-  leg1ZScale->AddEntry(gmassZpPbMC,"pPb MC 8.16 TeV","pe");
-  leg1ZScale->AddEntry(gmassZppMC,"pp MC 5.02 TeV","pe");
-  //TLegendEntry *header1 = (TLegendEntry*)leg1->GetListOfPrimitives()->First();
-  //header1->SetTextAlign(32);
-  //header1->SetTextColor(2);
-  //header1->SetTextSize(.06);
-  leg1ZScale->Draw("same");
-  TLine* l4PbPb = new TLine(0,1,2.4,1);
-  l4PbPb->SetLineColor(kRed);
-  l4PbPb->SetLineStyle(2);
-  l4PbPb->Draw("same");
+  TLegend* leg4 = new TLegend(0.17,0.15,0.45,0.45);
+  leg4->SetTextSize(0.04);
+  //leg4->SetTextFont(43);
+  leg4->SetBorderSize(0);
+  leg4->SetHeader("Mass Scale at Z peak","C");
+  leg4->AddEntry(gmassZPbPbRD,"PbPb Data 5.02 TeV","pe");
+  leg4->AddEntry(gmassZpPbRD,"pPb Data 8.16 TeV","pe");
+  leg4->AddEntry(gmassZppRD,"pp Data 5.02 TeV","pe");
+  leg4->AddEntry(gmassZPbPbMC,"PbPb MC 5.02 TeV","pe");
+  leg4->AddEntry(gmassZpPbMC,"pPb MC 8.16 TeV","pe");
+  leg4->AddEntry(gmassZppMC,"pp MC 5.02 TeV","pe");
+  TLegendEntry *header4 = (TLegendEntry*)leg4->GetListOfPrimitives()->First();
+  header4->SetTextAlign(12);
+  //header4->SetTextColor(2);
+  header4->SetTextSize(.06);
+  leg4->Draw("same");
+  TLine* l4a = new TLine(0,1,2.4,1);
+  l4a->SetLineColor(kRed);
+  l4a->SetLineStyle(2);
+  l4a->Draw("same");
 
-  c4PbPb->SetLeftMargin(0.15);
-  c4PbPb->SetRightMargin(0.05);
-  c4PbPb->SaveAs("FinalPlots/etaMassScaleZ.pdf");
-  c4PbPb->SaveAs("FinalPlots/etaMassScaleZ.png");
+  TPad *pad4b = new TPad("pad4b", "pad4b", 0, 0, 0.98, 0.2);
+  pad4b->SetTopMargin(0); // Upper and lower plot are joined
+  pad4b->SetBottomMargin(0.4);
+  pad4a->SetLeftMargin(0.14);
+  pad4a->SetRightMargin(0.02);
+  pad4b->SetRightMargin(0.02);
+  pad4b->SetLeftMargin(0.14);
+  pad4b->SetTicks(1,1);
+  pad4b->cd();
+
+  TGraphAsymmErrors* gmassZPbPbRDsf = (TGraphAsymmErrors*)gmassZPbPbRD->Clone("gmassZPbPbRDsf");
+  DivideGraphs(gmassZPbPbRDsf,gmassZPbPbMC);
+  gmassZPbPbRD->GetXaxis()->SetLabelSize(0) ; //23
+  gmassZPbPbRD->GetXaxis()->SetTitleSize(0) ;  //28
+  gmassZPbPbRD->GetYaxis()->CenterTitle();
+  gmassZPbPbRDsf->SetMinimum(0.9965);
+  gmassZPbPbRDsf->SetMaximum(1.0035);
+  gmassZPbPbRDsf->Draw("AP");
+  TGraphAsymmErrors* gmassZpPbRDsf = (TGraphAsymmErrors*)gmassZpPbRD->Clone("gmassZpPbRDsf");
+  DivideGraphs(gmassZpPbRDsf,gmassZpPbMC);
+  gmassZpPbRDsf->Draw("same P");
+  TGraphAsymmErrors* gmassZppRDsf = (TGraphAsymmErrors*)gmassZppRD->Clone("gmassZppRDsf");
+  DivideGraphs(gmassZppRDsf,gmassZppMC);
+  gmassZppRDsf->Draw("same P");
+  TLine *l4 = new TLine(0,1,2.4,1);
+  l4->SetLineStyle(9);
+  l4->Draw();
+
+
+  setTDRStyle();
+  writeExtraText = false;
+  extraText = "Preliminary";
+
+  TString label;
+  label="";
+  CMS_lumi(pad1a, 0 ,33);
+  CMS_lumi(pad2a, 0 ,33);
+  CMS_lumi(pad3a, 0 ,33);
+  CMS_lumi(pad4a, 0 ,33);
+
+  pad1a->Update();
+  pad1b->Update();
+  c1->cd();
+  pad1a->Draw();
+  pad1b->Draw();
+  pad1a->Update();
+  pad1b->Update();
+
+  pad2a->Update();
+  pad2b->Update();
+  c2->cd();
+  pad2a->Draw();
+  pad2b->Draw();
+  pad2a->Update();
+  pad2b->Update();
+
+  pad3a->Update();
+  pad3b->Update();
+  c3->cd();
+  pad3a->Draw();
+  pad3b->Draw();
+  pad3a->Update();
+  pad3b->Update();
+
+  pad4a->Update();
+  pad4b->Update();
+  c4->cd();
+  pad4a->Draw();
+  pad4b->Draw();
+  pad4a->Update();
+  pad4b->Update();
+
+  c1->cd();
+  c1->SaveAs("FinalPlots/etaMassResJpsi.png");
+  c1->SaveAs("FinalPlots/etaMassResJpsi.pdf");
+  c2->cd();
+  c2->SaveAs("FinalPlots/etaMassResZ.png");
+  c2->SaveAs("FinalPlots/etaMassResZ.pdf");
+  c3->cd();
+  c3->SaveAs("FinalPlots/etaMassScaleJpsi.png");
+  c3->SaveAs("FinalPlots/etaMassScaleJpsi.pdf");
+  c4->cd();
+  c4->SaveAs("FinalPlots/etaMassScaleZ.pdf");
+  c4->SaveAs("FinalPlots/etaMassScaleZ.png");
 
 
 
   //Write everything to the output file
   cout << "Writing to File " << outFileName << endl;
   outFile->cd();
-  c1PbPb->Write();
-  c3PbPb->Write();
+  c1->Write();
+  c2->Write();
+  c3->Write();
+  c4->Write();
   outFile->Close();
 
 
