@@ -1,5 +1,5 @@
 
-void getWidthsOftnpFits_etaPbPbZ(int RD0MC1=1) {
+void getWidthsOftnpFits_etaPbPbZ(int RD0MC1=0) {
   TString RDorMC;
   if (RD0MC1==0) RDorMC = "RD";
   else if (RD0MC1==1) RDorMC = "MC";
@@ -7,15 +7,22 @@ void getWidthsOftnpFits_etaPbPbZ(int RD0MC1=1) {
   gStyle->SetOptStat(0);
   const static int numParams = 2;
   //double etabins[6] = {15,20,30,50,80,200};//abseta_21_24
-  double etabins[6] = {0.0,0.9,1.2,1.6,2.1,2.4};
+  //double etabins[6] = {0.0,0.9,1.2,1.6,2.1,2.4};
+  double etabins[7] = {0.0,0.3,0.9,1.2,1.6,2.1,2.4};
   const static int numbins = sizeof(etabins)/sizeof(double)-1;
 
   TH1D* hsigma = new TH1D("hsigma","hsigma",numbins,etabins);
   TH1D* hmass = new TH1D("hmass","hmass",numbins,etabins);
 
   TString filename;
-  if (RDorMC=="RD") filename = "PbPbZ/tnp_Ana_RD_L3Mu12_PbPb_0_v5_paperFixedBWn.root";
-  else if (RDorMC=="MC") filename = "PbPbZ/tnp_Ana_MC_L3Mu12_PbPb_0_v5_paperFixedBWn.root";
+  if (RDorMC=="RD") {
+    //filename = "PbPbZ/tnp_Ana_RD_L3Mu12_PbPb_0_v5_paperFixedBWn.root";
+    filename = "PbPbZ/tnp_Ana_RD_L3Mu12_PbPb_0_v2_syst.root";
+  }
+  else if (RDorMC=="MC") {
+    //filename = "PbPbZ/tnp_Ana_MC_L3Mu12_PbPb_0_v5_paperFixedBWn.root";
+    filename = "PbPbZ/tnp_Ana_MC_L3Mu12_PbPb_0_v2_syst.root";
+  }
   TFile* f1 = TFile::Open(filename,"READ");
 
   cout << "starting loop" << endl;

@@ -1,3 +1,5 @@
+#include "HeaderFiles/tdrstyle.C"
+#include "HeaderFiles/CMS_lumi.C"
 
 void removeXerrors(TGraphAsymmErrors* graph) {
 
@@ -14,7 +16,11 @@ void mergeEtaGraphs(bool zoom=kFALSE) {
   TString zoomString = "";
   if (zoom) zoomString = "_zoom";
 
-  gStyle->SetErrorX(0);//This doesn't do anything.
+  //setTDRStyle();
+  //writeExtraText = false;
+  //extraText = "Preliminary";
+
+  //gStyle->SetErrorX(0);//This doesn't do anything.
 
   cout << "Loading graphs from RD files..." << endl;
   TFile* fZPbPbRD = TFile::Open("Results/etaMassResZPbPbRD.root","READ");
@@ -229,14 +235,37 @@ void mergeEtaGraphs(bool zoom=kFALSE) {
   c1pp->SaveAs(Form("FinalPlots/etaMassResJpsipp%s.png",zoomString.Data()));
 
   //unscaled
-  TCanvas* c1ppUnscaled = new TCanvas("c1ppUnscaled","c1ppUnscaled",0,0,400,400);
+  TCanvas* c1ppUnscaled = new TCanvas("c1ppUnscaled","c1ppUnscaled",400,0,400,400);
   c1ppUnscaled->cd();
-  gsigmaJpsippRDUnscaled->SetTitle("Mass Res. at J/#psi peak (pp 5.02 TeV)");
-  gsigmaJpsippRDUnscaled->SetMinimum(0.02);
-  gsigmaJpsippRDUnscaled->SetMaximum(0.08);
-  gsigmaJpsippRDUnscaled->GetXaxis()->SetLimits(0.0,2.4);
+  double oldybins[5] = {0.0, 0.4, 1.2, 2.0, 2.8};
+  TH1D* histOldsigmaRD = new TH1D("histOldsigmaRD","histOldsigmaRD",4,oldybins);
+  histOldsigmaRD->SetBinContent(1,0.0233828);
+  histOldsigmaRD->SetBinContent(2,(0.0285786+0.0349242)/2);
+  histOldsigmaRD->SetBinContent(3,(0.0439672+0.0423973)/2);
+  histOldsigmaRD->SetBinContent(4,(0.0528332+0.0530101)/2);
+  histOldsigmaRD->SetBinError(1,0);
+  histOldsigmaRD->SetBinError(2,0);
+  histOldsigmaRD->SetBinError(3,0);
+  histOldsigmaRD->SetBinError(4,0);
+  histOldsigmaRD->Draw();
+  TH1D* histOldsigmaMC = new TH1D("histOldsigmaMC","histOldsigmaMC",4,oldybins);
+  histOldsigmaMC->SetBinContent(1,0.020199);
+  histOldsigmaMC->SetBinContent(2,(0.0311434+0.0311876)/2);
+  histOldsigmaMC->SetBinContent(3,(0.0407612+0.0406728)/2);
+  histOldsigmaMC->SetBinContent(4,(0.0502021+0.0494725)/2);
+  histOldsigmaMC->SetBinError(1,0);
+  histOldsigmaMC->SetBinError(2,0);
+  histOldsigmaMC->SetBinError(3,0);
+  histOldsigmaMC->SetBinError(4,0);
+  histOldsigmaMC->Draw();
+  TGraphAsymmErrors* gOldsigmaRD = new TGraphAsymmErrors(histOldsigmaRD);
+  TGraphAsymmErrors* gOldsigmaMC = new TGraphAsymmErrors(histOldsigmaMC);
+  gsigmaJpsippRDUnscaled->SetTitle("");
+  gsigmaJpsippRDUnscaled->SetMinimum(0.0);
+  gsigmaJpsippRDUnscaled->SetMaximum(0.07);
+  gsigmaJpsippRDUnscaled->GetXaxis()->SetLimits(0.0,2.8);
   gsigmaJpsippRDUnscaled->GetXaxis()->SetTitle("|#eta^{#mu}|");
-  gsigmaJpsippRDUnscaled->GetYaxis()->SetTitle("Mass Resolution (#sigma_{avg}) at J/#psi peak");
+  gsigmaJpsippRDUnscaled->GetYaxis()->SetTitle("Mass Resolution (#sigma_{avg}) at J/#psi peak (GeV)");
   gsigmaJpsippRDUnscaled->Draw("AP");
   gsigmaJpsippRDUnscaled->SetMarkerStyle(33);
   gsigmaJpsippRDUnscaled->SetMarkerColor(kBlack);
@@ -246,7 +275,26 @@ void mergeEtaGraphs(bool zoom=kFALSE) {
   gsigmaJpsippMCUnscaled->SetMarkerColor(kBlack);
   gsigmaJpsippMCUnscaled->SetLineColor(kBlack);
   gsigmaJpsippMCUnscaled->Draw("same P");
+  gOldsigmaRD->SetMarkerStyle(23);
+  gOldsigmaRD->SetMarkerColor(kBlue);
+  gOldsigmaRD->SetLineColor(kBlue);
+  gOldsigmaRD->Draw("same P E");
+  gOldsigmaMC->SetMarkerStyle(20);
+  gOldsigmaMC->SetMarkerColor(kRed);
+  gOldsigmaMC->SetLineColor(kRed);
+  gOldsigmaMC->Draw("same P E");
 
+  TLegend* legComp = new TLegend(0.5,0.15,0.75,0.4);
+  legComp->SetTextSize(0.04);
+  //legComp->SetTextFont(43);
+  legComp->SetBorderSize(0);
+  legComp->AddEntry(gsigmaJpsippRDUnscaled,"pp Data 5.02 TeV","pe");
+  legComp->AddEntry(gsigmaJpsippMCUnscaled,"pp MC 5.02 TeV","pe");
+  legComp->AddEntry(gOldsigmaRD,"2010 pp Data 7 TeV","pe");
+  legComp->AddEntry(gOldsigmaMC,"2010 pp MC 7 TeV","pe");
+  legComp->Draw("same");
+
+  c1ppUnscaled->SetTicks(1,1);
   c1ppUnscaled->SetLeftMargin(0.15);
   c1ppUnscaled->SetRightMargin(0.05);
   c1ppUnscaled->SaveAs(Form("FinalPlots/etaMassResJpsipp%s_unscaled.pdf",zoomString.Data()));
@@ -429,13 +477,36 @@ void mergeEtaGraphs(bool zoom=kFALSE) {
   c3pp->SaveAs(Form("FinalPlots/etaMassScaleJpsipp%s.png",zoomString.Data()));
 
   //unscaled
-  TCanvas* c3ppUnscaled = new TCanvas("c3ppUnscaled","c3ppUnscaled",0,0,400,400);
+  TCanvas* c3ppUnscaled = new TCanvas("c3ppUnscaled","c3ppUnscaled",400,0,400,400);
   c3ppUnscaled->cd();
+  TH1D* histOldmassRD = new TH1D("histOldmassRD","histOldmassRD",4,oldybins);
+  histOldmassRD->SetBinContent(1,3.09435);
+  histOldmassRD->SetBinContent(2,(3.09513+3.09306)/2);
+  histOldmassRD->SetBinContent(3,(3.09206+3.0921)/2);
+  histOldmassRD->SetBinContent(4,(3.08997+3.08955)/2);
+  histOldmassRD->SetBinError(1,0);
+  histOldmassRD->SetBinError(2,0);
+  histOldmassRD->SetBinError(3,0);
+  histOldmassRD->SetBinError(4,0);
+  histOldmassRD->Draw();
+  TH1D* histOldmassMC = new TH1D("histOldmassMC","histOldmassMC",4,oldybins);
+  histOldmassMC->SetBinContent(1,3.09755);
+  histOldmassMC->SetBinContent(2,(3.09822+3.09793)/2);
+  histOldmassMC->SetBinContent(3,(3.09724+3.09773)/2);
+  histOldmassMC->SetBinContent(4,(3.09601+3.0964)/2);
+  histOldmassMC->SetBinError(1,0);
+  histOldmassMC->SetBinError(2,0);
+  histOldmassMC->SetBinError(3,0);
+  histOldmassMC->SetBinError(4,0);
+  histOldmassMC->Draw();
+  TGraphAsymmErrors* gOldmassRD = new TGraphAsymmErrors(histOldmassRD);
+  TGraphAsymmErrors* gOldmassMC = new TGraphAsymmErrors(histOldmassMC);
+  gmassJpsippRDUnscaled->SetTitle("");
   gmassJpsippRDUnscaled->SetMinimum(3.08);
   gmassJpsippRDUnscaled->SetMaximum(3.10);
-  gmassJpsippRDUnscaled->GetXaxis()->SetLimits(0.0,2.4);
+  gmassJpsippRDUnscaled->GetXaxis()->SetLimits(0.0,2.8);
   gmassJpsippRDUnscaled->GetXaxis()->SetTitle("|#eta^{#mu}|");
-  gmassJpsippRDUnscaled->GetYaxis()->SetTitle("Mass Scale (m_{Fit}/m_{PDG}) at J/#psi peak");
+  gmassJpsippRDUnscaled->GetYaxis()->SetTitle("Mass (m_{Fit}) of J/#psi (GeV)");
   gmassJpsippRDUnscaled->Draw("AP");
   gmassJpsippRDUnscaled->SetMarkerStyle(33);
   gmassJpsippRDUnscaled->SetMarkerColor(kBlack);
@@ -445,8 +516,32 @@ void mergeEtaGraphs(bool zoom=kFALSE) {
   gmassJpsippMCUnscaled->SetMarkerColor(kBlack);
   gmassJpsippMCUnscaled->SetLineColor(kBlack);
   gmassJpsippMCUnscaled->Draw("same P");
+  gOldmassRD->SetMarkerStyle(23);
+  gOldmassRD->SetMarkerColor(kBlue);
+  gOldmassRD->SetLineColor(kBlue);
+  gOldmassRD->Draw("same P");
+  gOldmassMC->SetMarkerStyle(20);
+  gOldmassMC->SetMarkerColor(kRed);
+  gOldmassMC->SetLineColor(kRed);
+  gOldmassMC->Draw("same P");
+
+  TLegend* legComp2 = new TLegend(0.5,0.15,0.75,0.4);
+  legComp2->SetTextSize(0.04);
+  //legComp2->SetTextFont(43);
+  legComp2->SetBorderSize(0);
+  legComp2->AddEntry(gmassJpsippRDUnscaled,"pp Data 5.02 TeV","pe");
+  legComp2->AddEntry(gmassJpsippMCUnscaled,"pp MC 5.02 TeV","pe");
+  legComp2->AddEntry(gOldmassRD,"2010 pp Data 7 TeV","pe");
+  legComp2->AddEntry(gOldmassMC,"2010 pp MC 7 TeV","pe");
+  legComp2->Draw("same");
+
+  TLine* l1 = new TLine(0,3.0969,2.8,3.0969);
+  l1->SetLineColor(kGreen);
+  l1->SetLineStyle(9);
+  l1->Draw("same");
 
   c3ppUnscaled->SetLeftMargin(0.15);
+  c3ppUnscaled->SetTicks(1,1);
   c3ppUnscaled->SetRightMargin(0.05);
   c3ppUnscaled->SaveAs(Form("FinalPlots/etaMassScaleJpsipp%s_unscaled.pdf",zoomString.Data()));
   c3ppUnscaled->SaveAs(Form("FinalPlots/etaMassScaleJpsipp%s_unscaled.png",zoomString.Data()));
