@@ -7,13 +7,15 @@ void getWidthsOftnpFits_etapPbZ(int RD0MC1=1) {
   else if (RD0MC1==1) RDorMC = "MC";
 
   gStyle->SetOptStat(0);
-  double etabins[6] = {0.0, 0.9, 1.2, 1.6, 2.1, 2.4};
+  //double etabins[6] = {0.0, 0.9, 1.2, 1.6, 2.1, 2.4};
+  double etabins[7] = {0.0, 0.3, 0.9, 1.2, 1.6, 2.1, 2.4};
   const static int numbins = sizeof(etabins)/sizeof(double)-1;
 
   TH1D* hsigma = new TH1D("hsigma","hsigma",numbins,etabins);
   TH1D* hmass = new TH1D("hmass","hmass",numbins,etabins);
 
-  TString filename = Form("pPbZ/tnp_Ana_%s_L3Mu12_MuId_pPb_0_paper_FixedBWn.root",RDorMC.Data());
+  //TString filename = Form("pPbZ/tnp_Ana_%s_L3Mu12_MuId_pPb_0_paper_FixedBWn.root",RDorMC.Data());
+  TString filename = Form("pPbZ/tnp_Ana_%s_L3Mu12_MuId_pPb_0_massRes.root",RDorMC.Data());
   TFile* f1 = TFile::Open(filename,"READ");
 
   cout << "starting loop" << endl;
