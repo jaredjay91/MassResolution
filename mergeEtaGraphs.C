@@ -1,6 +1,8 @@
 #include "HeaderFiles/tdrstyle.C"
 #include "HeaderFiles/CMS_lumi.C"
 
+int kPurple = 9;
+
 void removeXerrors(TGraphAsymmErrors* graph) {
 
   cout << "removing X errors..." << endl;
@@ -68,6 +70,11 @@ void mergeEtaGraphs(bool zoom=kFALSE) {
 
 
   //Remove X error bars:
+  removeXerrors(gsigmaJpsippRDUnscaled);
+  removeXerrors(gmassJpsippRDUnscaled);
+  removeXerrors(gsigmaJpsippMCUnscaled);
+  removeXerrors(gmassJpsippMCUnscaled);
+
   /*removeXerrors(gsigmaZPbPbRD);
   removeXerrors(gsigmaZpPbRD);
   removeXerrors(gsigmaZppRD);
@@ -260,6 +267,8 @@ void mergeEtaGraphs(bool zoom=kFALSE) {
   histOldsigmaMC->Draw();
   TGraphAsymmErrors* gOldsigmaRD = new TGraphAsymmErrors(histOldsigmaRD);
   TGraphAsymmErrors* gOldsigmaMC = new TGraphAsymmErrors(histOldsigmaMC);
+  removeXerrors(gOldsigmaRD);
+  removeXerrors(gOldsigmaMC);
   gsigmaJpsippRDUnscaled->SetTitle("");
   gsigmaJpsippRDUnscaled->SetMinimum(0.0);
   gsigmaJpsippRDUnscaled->SetMaximum(0.07);
@@ -276,12 +285,12 @@ void mergeEtaGraphs(bool zoom=kFALSE) {
   gsigmaJpsippMCUnscaled->SetLineColor(kBlack);
   gsigmaJpsippMCUnscaled->Draw("same P");
   gOldsigmaRD->SetMarkerStyle(23);
-  gOldsigmaRD->SetMarkerColor(kBlue);
-  gOldsigmaRD->SetLineColor(kBlue);
+  gOldsigmaRD->SetMarkerColor(kPurple);
+  gOldsigmaRD->SetLineColor(kPurple);
   gOldsigmaRD->Draw("same P E");
-  gOldsigmaMC->SetMarkerStyle(20);
-  gOldsigmaMC->SetMarkerColor(kRed);
-  gOldsigmaMC->SetLineColor(kRed);
+  gOldsigmaMC->SetMarkerStyle(32);
+  gOldsigmaMC->SetMarkerColor(kPurple);
+  gOldsigmaMC->SetLineColor(kPurple);
   gOldsigmaMC->Draw("same P E");
 
   TLegend* legComp = new TLegend(0.5,0.15,0.75,0.4);
@@ -501,6 +510,8 @@ void mergeEtaGraphs(bool zoom=kFALSE) {
   histOldmassMC->Draw();
   TGraphAsymmErrors* gOldmassRD = new TGraphAsymmErrors(histOldmassRD);
   TGraphAsymmErrors* gOldmassMC = new TGraphAsymmErrors(histOldmassMC);
+  removeXerrors(gOldmassRD);
+  removeXerrors(gOldmassMC);
   gmassJpsippRDUnscaled->SetTitle("");
   gmassJpsippRDUnscaled->SetMinimum(3.08);
   gmassJpsippRDUnscaled->SetMaximum(3.10);
@@ -517,12 +528,12 @@ void mergeEtaGraphs(bool zoom=kFALSE) {
   gmassJpsippMCUnscaled->SetLineColor(kBlack);
   gmassJpsippMCUnscaled->Draw("same P");
   gOldmassRD->SetMarkerStyle(23);
-  gOldmassRD->SetMarkerColor(kBlue);
-  gOldmassRD->SetLineColor(kBlue);
+  gOldmassRD->SetMarkerColor(kPurple);
+  gOldmassRD->SetLineColor(kPurple);
   gOldmassRD->Draw("same P");
-  gOldmassMC->SetMarkerStyle(20);
-  gOldmassMC->SetMarkerColor(kRed);
-  gOldmassMC->SetLineColor(kRed);
+  gOldmassMC->SetMarkerStyle(32);
+  gOldmassMC->SetMarkerColor(kPurple);
+  gOldmassMC->SetLineColor(kPurple);
   gOldmassMC->Draw("same P");
 
   TLegend* legComp2 = new TLegend(0.5,0.15,0.75,0.4);

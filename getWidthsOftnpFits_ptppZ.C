@@ -15,14 +15,15 @@ void getWidthsOftnpFits_ptppZ(int RD0MC1=0) {
   TH1D* hsigma = new TH1D("hsigma","hsigma",numbins,ptbins);
   TH1D* hmass = new TH1D("hmass","hmass",numbins,ptbins);
 
-  TString filename = Form("ppZ/tnp_Ana_%s_L3Mu12_iso_pp_nominal_0.root",RDorMC.Data());
+  //TString filename = Form("ppZ/tnp_Ana_%s_L3Mu12_iso_pp_nominal_0.root",RDorMC.Data());
+  TString filename = Form("ppZ/tnp_Trigger_%s_pp_BWConvCBExpFixedWidthBW.root",RDorMC.Data());
   TFile* f1 = TFile::Open(filename,"READ");
 
   cout << "starting loop" << endl;
    for (int i=0; i<numbins; i++) {
      //Change this to match whatever is in the file you're using.
-     //RooFitResult* fitRes = (RooFitResult*)f1->Get(Form("tpTree/Trg_pt_abseta21_24/abseta_bin0__charge_bin0__combRelIsoPF04dBeta_bin0__pt_bin%i__tag_abseta_bin0__tag_pt_bin0__TightId_true__tag_HLT_HIL3Mu12_true__BWResCBExp/fitresults;1",i));
-     RooFitResult* fitRes = (RooFitResult*)f1->Get(Form("tpTree/Trg_pt/charge_bin0__combRelIsoPF04dBeta_bin0__eta_bin0__pt_bin%i__tag_abseta_bin0__tag_pt_bin0__TightId_true__tag_HLT_HIL3Mu12_true__BWResCBExp/fitresults;1",i));
+     //RooFitResult* fitRes = (RooFitResult*)f1->Get(Form("tpTree/Trg_pt/charge_bin0__combRelIsoPF04dBeta_bin0__eta_bin0__pt_bin%i__tag_abseta_bin0__tag_pt_bin0__TightId_true__tag_HLT_HIL3Mu12_true__BWResCBExp/fitresults;1",i));
+     RooFitResult* fitRes = (RooFitResult*)f1->Get(Form("tpTree/Trg_pt/abseta_bin0__pt_bin%i__InAcceptance_2018_Tight_true__TightId_true__tag_HLT_HIL3Mu12_true__BWConvCBExpFixedWidthBW/fitresults;1",i));
 
       fitRes->Print("v");
 
