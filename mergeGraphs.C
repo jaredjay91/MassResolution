@@ -1,6 +1,16 @@
 #include "HeaderFiles/tdrstyle.C"
 #include "HeaderFiles/CMS_lumi.C"
 
+void drawText(const char *text, float xp, float yp, int textColor=kBlack, int textSize=18, float textFont=43){
+   TLatex *tex = new TLatex(xp,yp,text);
+   tex->SetTextFont(textFont);
+   //   if(bold)tex->SetTextFont(43);
+   tex->SetTextSize(textSize);
+   tex->SetTextColor(textColor);
+   tex->SetLineWidth(1);
+   tex->SetNDC();
+   tex->Draw();
+}
 
 void removeXerrors(TGraphAsymmErrors* graph) {
 
@@ -194,22 +204,30 @@ void mergeGraphs() {
   gsigmaZppMC->SetLineColor(kBlack);
   gsigmaZppMC->Draw("same P");
 
-  TLegend* leg1 = new TLegend(0.55,0.15,0.89,0.45);
+  TLegend* leg1 = new TLegend(0.17,0.15,0.45,0.45);
   leg1->SetTextSize(0.04);
   //leg1->SetTextFont(43);
   leg1->SetBorderSize(0);
-  leg1->SetHeader("Mass Res. at Z peak","C");
+  //leg1->SetHeader("Mass Res. at Z peak","C");
   leg1->AddEntry(gsigmaZPbPbRD,"PbPb Data 5.02 TeV","pe");
   leg1->AddEntry(gsigmaZpPbRD,"pPb Data 8.16 TeV","pe");
   leg1->AddEntry(gsigmaZppRD,"pp Data 5.02 TeV","pe");
   leg1->AddEntry(gsigmaZPbPbMC,"PbPb MC 5.02 TeV","pe");
   leg1->AddEntry(gsigmaZpPbMC,"pPb MC 8.16 TeV","pe");
   leg1->AddEntry(gsigmaZppMC,"pp MC 5.02 TeV","pe");
-  TLegendEntry *header1 = (TLegendEntry*)leg1->GetListOfPrimitives()->First();
-  header1->SetTextAlign(32);
-  //header1->SetTextColor(2);
-  header1->SetTextSize(.06);
+  //TLegendEntry *header1 = (TLegendEntry*)leg1->GetListOfPrimitives()->First();
+  //header1->SetTextAlign(32);
+  //header1->SetTextSize(.06);
   leg1->Draw("same");
+
+  float pos_text_x = 0.65;
+  float pos_text_y = 0.28;
+  float pos_y_diff = 0.06;
+  float text_size = 16;
+  int text_color = 1;
+  drawText("Z Peak", pos_text_x,pos_text_y,text_color,text_size);
+  drawText("15 < p_{T}^{#mu} < 200 GeV/c", pos_text_x,pos_text_y-pos_y_diff,text_color,text_size);
+  drawText("|#eta^{#mu}| < 2.4", pos_text_x,pos_text_y-2*pos_y_diff,text_color,text_size);
 
   TPad *pad1b = new TPad("pad1b", "pad1b", 0, 0, 0.98, 0.2);
   pad1b->SetTopMargin(0); // Upper and lower plot are joined
@@ -293,22 +311,25 @@ void mergeGraphs() {
   gmassZppMC->SetLineColor(kBlack);
   gmassZppMC->Draw("same P");
 
-  TLegend* leg2 = new TLegend(0.55,0.15,0.89,0.45);
+  TLegend* leg2 = new TLegend(0.17,0.15,0.45,0.45);
   leg2->SetTextSize(0.04);
   //leg2->SetTextFont(43);
   leg2->SetBorderSize(0);
-  leg2->SetHeader("Mass Scale at Z peak","C");
+  //leg2->SetHeader("Mass Scale at Z peak","C");
   leg2->AddEntry(gmassZPbPbRD,"PbPb Data 5.02 TeV","pe");
   leg2->AddEntry(gmassZpPbRD,"pPb Data 8.16 TeV","pe");
   leg2->AddEntry(gmassZppRD,"pp Data 5.02 TeV","pe");
   leg2->AddEntry(gmassZPbPbMC,"PbPb MC 5.02 TeV","pe");
   leg2->AddEntry(gmassZpPbMC,"pPb MC 8.16 TeV","pe");
   leg2->AddEntry(gmassZppMC,"pp MC 5.02 TeV","pe");
-  TLegendEntry *header2 = (TLegendEntry*)leg2->GetListOfPrimitives()->First();
-  header2->SetTextAlign(32);
-  //header2->SetTextColor(2);
-  header2->SetTextSize(.06);
+  //TLegendEntry *header2 = (TLegendEntry*)leg2->GetListOfPrimitives()->First();
+  //header2->SetTextAlign(32);
+  //header2->SetTextSize(.06);
   leg2->Draw("same");
+
+  drawText("Z Peak", pos_text_x,pos_text_y,text_color,text_size);
+  drawText("15 < p_{T}^{#mu} < 200 GeV/c", pos_text_x,pos_text_y-pos_y_diff,text_color,text_size);
+  drawText("|#eta^{#mu}| < 2.4", pos_text_x,pos_text_y-2*pos_y_diff,text_color,text_size);
 
   TLine* l2a = new TLine(0,1,3000,1);
   l2a->SetLineColor(kRed);
@@ -397,22 +418,25 @@ void mergeGraphs() {
   gsigmaJpsippMC->SetLineColor(kBlack);
   gsigmaJpsippMC->Draw("same P");
 
-  TLegend* leg3 = new TLegend(0.55,0.15,0.89,0.45);
+  TLegend* leg3 = new TLegend(0.17,0.15,0.45,0.45);
   leg3->SetTextSize(0.04);
   //leg3->SetTextFont(43);
   leg3->SetBorderSize(0);
-  leg3->SetHeader("Mass Res. at J/#psi peak","C");
+  //leg3->SetHeader("Mass Res. at J/#psi peak","C");
   leg3->AddEntry(gsigmaJpsiPbPbRD,"PbPb Data 5.02 TeV","pe");
   leg3->AddEntry(gsigmaJpsipPbRD,"pPb Data 8.16 TeV","pe");
   leg3->AddEntry(gsigmaJpsippRD,"pp Data 5.02 TeV","pe");
   leg3->AddEntry(gsigmaJpsiPbPbMC,"PbPb MC 5.02 TeV","pe");
   leg3->AddEntry(gsigmaJpsipPbMC,"pPb MC 8.16 TeV","pe");
   leg3->AddEntry(gsigmaJpsippMC,"pp MC 5.02 TeV","pe");
-  TLegendEntry *header3 = (TLegendEntry*)leg3->GetListOfPrimitives()->First();
-  header3->SetTextAlign(32);
-  //header3->SetTextColor(2);
-  header3->SetTextSize(.06);
+  //TLegendEntry *header3 = (TLegendEntry*)leg3->GetListOfPrimitives()->First();
+  //header3->SetTextAlign(32);
+  //header3->SetTextSize(.06);
   leg3->Draw("same");
+
+  drawText("J/#psi Peak", pos_text_x,pos_text_y,text_color,text_size);
+  drawText("3.5 < p_{T}^{#mu} < 30 GeV/c", pos_text_x,pos_text_y-pos_y_diff,text_color,text_size);
+  drawText("|#eta^{#mu}| < 2.4", pos_text_x,pos_text_y-2*pos_y_diff,text_color,text_size);
 
   TPad *pad3b = new TPad("pad3b", "pad3b", 0, 0, 0.98, 0.2);
   pad3b->SetTopMargin(0); // Upper and lower plot are joined
@@ -496,22 +520,25 @@ void mergeGraphs() {
   gmassJpsippMC->SetLineColor(kBlack);
   gmassJpsippMC->Draw("same P");
 
-  TLegend* leg4 = new TLegend(0.55,0.15,0.89,0.45);
+  TLegend* leg4 = new TLegend(0.17,0.15,0.45,0.45);
   leg4->SetTextSize(0.04);
   //leg4->SetTextFont(43);
   leg4->SetBorderSize(0);
-  leg4->SetHeader("Mass Scale at J/#psi peak","C");
+  //leg4->SetHeader("Mass Scale at J/#psi peak","C");
   leg4->AddEntry(gmassJpsiPbPbRD,"PbPb Data 5.02 TeV","pe");
   leg4->AddEntry(gmassJpsipPbRD,"pPb Data 8.16 TeV","pe");
   leg4->AddEntry(gmassJpsippRD,"pp Data 5.02 TeV","pe");
   leg4->AddEntry(gmassJpsiPbPbMC,"PbPb MC 5.02 TeV","pe");
   leg4->AddEntry(gmassJpsipPbMC,"pPb MC 8.16 TeV","pe");
   leg4->AddEntry(gmassJpsippMC,"pp MC 5.02 TeV","pe");
-  TLegendEntry *header4 = (TLegendEntry*)leg4->GetListOfPrimitives()->First();
-  header4->SetTextAlign(32);
-  //header4->SetTextColor(2);
-  header4->SetTextSize(.06);
+  //TLegendEntry *header4 = (TLegendEntry*)leg4->GetListOfPrimitives()->First();
+  //header4->SetTextAlign(32);
+  //header4->SetTextSize(.06);
   leg4->Draw("same");
+
+  drawText("J/#psi Peak", pos_text_x,pos_text_y,text_color,text_size);
+  drawText("3.5 < p_{T}^{#mu} < 30 GeV/c", pos_text_x,pos_text_y-pos_y_diff,text_color,text_size);
+  drawText("|#eta^{#mu}| < 2.4", pos_text_x,pos_text_y-2*pos_y_diff,text_color,text_size);
 
   TLine* l4a = new TLine(0,1,3000,1);
   l4a->SetLineColor(kRed);
