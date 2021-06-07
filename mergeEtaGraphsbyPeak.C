@@ -308,8 +308,8 @@ void mergeEtaGraphsbyPeak(bool zoom=kFALSE) {
   //header2->SetTextSize(.06);
   leg2->Draw("same");
 
-  drawText("J/#psi Peak", pos_text_x,pos_text_y,text_color,text_size);
-  drawText("3.5 < p_{T}^{#mu} < 30 GeV/c", pos_text_x,pos_text_y-pos_y_diff,text_color,text_size);
+  drawText("Z Peak", pos_text_x,pos_text_y,text_color,text_size);
+  drawText("15 < p_{T}^{#mu} < 200 GeV/c", pos_text_x,pos_text_y-pos_y_diff,text_color,text_size);
 
   TPad *pad2b = new TPad("pad2b", "pad2b", 0, 0, 0.98, 0.2);
   pad2b->SetTopMargin(0); // Upper and lower plot are joined
@@ -406,8 +406,8 @@ void mergeEtaGraphsbyPeak(bool zoom=kFALSE) {
   l3a->SetLineStyle(2);
   l3a->Draw("same");
 
-  drawText("Z Peak", pos_text_x,pos_text_y,text_color,text_size);
-  drawText("15 < p_{T}^{#mu} < 200 GeV/c", pos_text_x,pos_text_y-pos_y_diff,text_color,text_size);
+  drawText("J/#psi Peak", pos_text_x,pos_text_y,text_color,text_size);
+  drawText("3.5 < p_{T}^{#mu} < 30 GeV/c", pos_text_x,pos_text_y-pos_y_diff,text_color,text_size);
 
   TPad *pad3b = new TPad("pad3b", "pad3b", 0, 0, 0.98, 0.2);
   pad3b->SetTopMargin(0); // Upper and lower plot are joined
