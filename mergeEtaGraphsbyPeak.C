@@ -74,6 +74,7 @@ void mergeEtaGraphsbyPeak(bool zoom=kFALSE) {
   TString zoomString = "";
   if (zoom) zoomString = "_zoom";
 
+  float markerSize = 1.2;
   gStyle->SetErrorX(0);//This doesn't do anything.
 
   cout << "Loading graphs from RD files..." << endl;
@@ -174,28 +175,34 @@ void mergeEtaGraphsbyPeak(bool zoom=kFALSE) {
   gsigmaJpsiPbPbRD->Draw("AP");
   gsigmaJpsiPbPbRD->SetMarkerStyle(20);
   gsigmaJpsiPbPbRD->SetMarkerColor(kRed);
+  gsigmaJpsiPbPbRD->SetMarkerSize(markerSize);
   gsigmaJpsiPbPbRD->SetLineColor(kRed);
   gsigmaJpsiPbPbRD->Draw("AP");
   gsigmaJpsiPbPbMC->SetMarkerStyle(24);
   gsigmaJpsiPbPbMC->SetMarkerColor(kRed);
+  gsigmaJpsiPbPbMC->SetMarkerSize(markerSize);
   gsigmaJpsiPbPbMC->SetLineColor(kRed);
   gsigmaJpsiPbPbMC->Draw("same P");
   //********* pPb Jpsi ***********//
   gsigmaJpsipPbRD->SetMarkerStyle(21);
   gsigmaJpsipPbRD->SetMarkerColor(kBlue);
+  gsigmaJpsipPbRD->SetMarkerSize(markerSize);
   gsigmaJpsipPbRD->SetLineColor(kBlue);
   gsigmaJpsipPbRD->Draw("same P");
   gsigmaJpsipPbMC->SetMarkerStyle(25);
   gsigmaJpsipPbMC->SetMarkerColor(kBlue);
+  gsigmaJpsipPbMC->SetMarkerSize(markerSize);
   gsigmaJpsipPbMC->SetLineColor(kBlue);
   gsigmaJpsipPbMC->Draw("same P");
   //********* pp Jpsi ***********//
   gsigmaJpsippRD->SetMarkerStyle(33);
   gsigmaJpsippRD->SetMarkerColor(kBlack);
+  gsigmaJpsippRD->SetMarkerSize(markerSize);
   gsigmaJpsippRD->SetLineColor(kBlack);
   gsigmaJpsippRD->Draw("same P");
   gsigmaJpsippMC->SetMarkerStyle(27);
   gsigmaJpsippMC->SetMarkerColor(kBlack);
+  gsigmaJpsippMC->SetMarkerSize(markerSize);
   gsigmaJpsippMC->SetLineColor(kBlack);
   gsigmaJpsippMC->Draw("same P");
   TLegend* leg1 = new TLegend(0.17,0.55,0.45,0.85);
@@ -218,8 +225,9 @@ void mergeEtaGraphsbyPeak(bool zoom=kFALSE) {
   float pos_text_y = 0.25;
   float pos_y_diff = 0.06;
   float text_size = 16;
+  float peak_text_size = 24;
   int text_color = 1;
-  drawText("J/#psi Peak", pos_text_x,pos_text_y,text_color,text_size);
+  drawText("J/#psi Peak", pos_text_x,pos_text_y,text_color,peak_text_size);
   drawText("3.5 < p_{T}^{#mu} < 30 GeV/c", pos_text_x,pos_text_y-pos_y_diff,text_color,text_size);
 
   TPad *pad1b = new TPad("pad1b", "pad1b", 0, 0, 0.98, 0.2);
@@ -268,28 +276,34 @@ void mergeEtaGraphsbyPeak(bool zoom=kFALSE) {
   gsigmaZPbPbRD->Draw("AP");
   gsigmaZPbPbRD->SetMarkerStyle(20);
   gsigmaZPbPbRD->SetMarkerColor(kRed);
+  gsigmaZPbPbRD->SetMarkerSize(markerSize);
   gsigmaZPbPbRD->SetLineColor(kRed);
   gsigmaZPbPbRD->Draw("AP");
   gsigmaZPbPbMC->SetMarkerStyle(24);
   gsigmaZPbPbMC->SetMarkerColor(kRed);
+  gsigmaZPbPbMC->SetMarkerSize(markerSize);
   gsigmaZPbPbMC->SetLineColor(kRed);
   gsigmaZPbPbMC->Draw("same P");
   //********* pPb Z ***********//
   gsigmaZpPbRD->SetMarkerStyle(21);
   gsigmaZpPbRD->SetMarkerColor(kBlue);
+  gsigmaZpPbRD->SetMarkerSize(markerSize);
   gsigmaZpPbRD->SetLineColor(kBlue);
   gsigmaZpPbRD->Draw("same P");
   gsigmaZpPbMC->SetMarkerStyle(25);
   gsigmaZpPbMC->SetMarkerColor(kBlue);
+  gsigmaZpPbMC->SetMarkerSize(markerSize);
   gsigmaZpPbMC->SetLineColor(kBlue);
   gsigmaZpPbMC->Draw("same P");
   //********* pp Z ***********//
   gsigmaZppRD->SetMarkerStyle(33);
   gsigmaZppRD->SetMarkerColor(kBlack);
+  gsigmaZppRD->SetMarkerSize(markerSize);
   gsigmaZppRD->SetLineColor(kBlack);
   gsigmaZppRD->Draw("same P");
   gsigmaZppMC->SetMarkerStyle(27);
   gsigmaZppMC->SetMarkerColor(kBlack);
+  gsigmaZppMC->SetMarkerSize(markerSize);
   gsigmaZppMC->SetLineColor(kBlack);
   gsigmaZppMC->Draw("same P");
   TLegend* leg2 = new TLegend(0.17,0.55,0.45,0.85);
@@ -308,7 +322,7 @@ void mergeEtaGraphsbyPeak(bool zoom=kFALSE) {
   //header2->SetTextSize(.06);
   leg2->Draw("same");
 
-  drawText("Z Peak", pos_text_x,pos_text_y,text_color,text_size);
+  drawText("Z Peak", pos_text_x,pos_text_y,text_color,peak_text_size);
   drawText("15 < p_{T}^{#mu} < 200 GeV/c", pos_text_x,pos_text_y-pos_y_diff,text_color,text_size);
 
   TPad *pad2b = new TPad("pad2b", "pad2b", 0, 0, 0.98, 0.2);
@@ -362,28 +376,34 @@ void mergeEtaGraphsbyPeak(bool zoom=kFALSE) {
   gmassJpsiPbPbRD->Draw("AP");
   gmassJpsiPbPbRD->SetMarkerStyle(20);
   gmassJpsiPbPbRD->SetMarkerColor(kRed);
+  gmassJpsiPbPbRD->SetMarkerSize(markerSize);
   gmassJpsiPbPbRD->SetLineColor(kRed);
   gmassJpsiPbPbRD->Draw("AP");
   gmassJpsiPbPbMC->SetMarkerStyle(24);
   gmassJpsiPbPbMC->SetMarkerColor(kRed);
+  gmassJpsiPbPbMC->SetMarkerSize(markerSize);
   gmassJpsiPbPbMC->SetLineColor(kRed);
   gmassJpsiPbPbMC->Draw("same P");
   //********* pPb Jpsi ***********//
   gmassJpsipPbRD->SetMarkerStyle(21);
   gmassJpsipPbRD->SetMarkerColor(kBlue);
+  gmassJpsipPbRD->SetMarkerSize(markerSize);
   gmassJpsipPbRD->SetLineColor(kBlue);
   gmassJpsipPbRD->Draw("same P");
   gmassJpsipPbMC->SetMarkerStyle(25);
   gmassJpsipPbMC->SetMarkerColor(kBlue);
+  gmassJpsipPbMC->SetMarkerSize(markerSize);
   gmassJpsipPbMC->SetLineColor(kBlue);
   gmassJpsipPbMC->Draw("same P");
   //********* pp Jpsi ***********//
   gmassJpsippRD->SetMarkerStyle(33);
   gmassJpsippRD->SetMarkerColor(kBlack);
+  gmassJpsippRD->SetMarkerSize(markerSize);
   gmassJpsippRD->SetLineColor(kBlack);
   gmassJpsippRD->Draw("same P");
   gmassJpsippMC->SetMarkerStyle(27);
   gmassJpsippMC->SetMarkerColor(kBlack);
+  gmassJpsippMC->SetMarkerSize(markerSize);
   gmassJpsippMC->SetLineColor(kBlack);
   gmassJpsippMC->Draw("same P");
   TLegend* leg3 = new TLegend(0.17,0.15,0.45,0.45);
@@ -406,7 +426,7 @@ void mergeEtaGraphsbyPeak(bool zoom=kFALSE) {
   l3a->SetLineStyle(2);
   l3a->Draw("same");
 
-  drawText("J/#psi Peak", pos_text_x,pos_text_y,text_color,text_size);
+  drawText("J/#psi Peak", pos_text_x,pos_text_y,text_color,peak_text_size);
   drawText("3.5 < p_{T}^{#mu} < 30 GeV/c", pos_text_x,pos_text_y-pos_y_diff,text_color,text_size);
 
   TPad *pad3b = new TPad("pad3b", "pad3b", 0, 0, 0.98, 0.2);
@@ -456,28 +476,34 @@ void mergeEtaGraphsbyPeak(bool zoom=kFALSE) {
   gmassZPbPbRD->Draw("AP");
   gmassZPbPbRD->SetMarkerStyle(20);
   gmassZPbPbRD->SetMarkerColor(kRed);
+  gmassZPbPbRD->SetMarkerSize(markerSize);
   gmassZPbPbRD->SetLineColor(kRed);
   gmassZPbPbRD->Draw("AP");
   gmassZPbPbMC->SetMarkerStyle(24);
   gmassZPbPbMC->SetMarkerColor(kRed);
+  gmassZPbPbMC->SetMarkerSize(markerSize);
   gmassZPbPbMC->SetLineColor(kRed);
   gmassZPbPbMC->Draw("same P");
   //********* pPb Z ***********//
   gmassZpPbRD->SetMarkerStyle(21);
   gmassZpPbRD->SetMarkerColor(kBlue);
+  gmassZpPbRD->SetMarkerSize(markerSize);
   gmassZpPbRD->SetLineColor(kBlue);
   gmassZpPbRD->Draw("same P");
   gmassZpPbMC->SetMarkerStyle(25);
   gmassZpPbMC->SetMarkerColor(kBlue);
+  gmassZpPbMC->SetMarkerSize(markerSize);
   gmassZpPbMC->SetLineColor(kBlue);
   gmassZpPbMC->Draw("same P");
   //********* pp Z ***********//
   gmassZppRD->SetMarkerStyle(33);
   gmassZppRD->SetMarkerColor(kBlack);
+  gmassZppRD->SetMarkerSize(markerSize);
   gmassZppRD->SetLineColor(kBlack);
   gmassZppRD->Draw("same P");
   gmassZppMC->SetMarkerStyle(27);
   gmassZppMC->SetMarkerColor(kBlack);
+  gmassZppMC->SetMarkerSize(markerSize);
   gmassZppMC->SetLineColor(kBlack);
   gmassZppMC->Draw("same P");
   TLegend* leg4 = new TLegend(0.17,0.15,0.45,0.45);
@@ -500,7 +526,7 @@ void mergeEtaGraphsbyPeak(bool zoom=kFALSE) {
   l4a->SetLineStyle(2);
   l4a->Draw("same");
 
-  drawText("Z Peak", pos_text_x,pos_text_y,text_color,text_size);
+  drawText("Z Peak", pos_text_x,pos_text_y,text_color,peak_text_size);
   drawText("15 < p_{T}^{#mu} < 200 GeV/c", pos_text_x,pos_text_y-pos_y_diff,text_color,text_size);
 
   TPad *pad4b = new TPad("pad4b", "pad4b", 0, 0, 0.98, 0.2);
