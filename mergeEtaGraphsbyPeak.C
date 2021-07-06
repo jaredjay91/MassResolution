@@ -75,6 +75,7 @@ void mergeEtaGraphsbyPeak(bool zoom=kFALSE) {
   if (zoom) zoomString = "_zoom";
 
   float markerSize = 1.2;
+  float ppmarkerSize = 1.6;
   gStyle->SetErrorX(0);//This doesn't do anything.
 
   cout << "Loading graphs from RD files..." << endl;
@@ -197,12 +198,12 @@ void mergeEtaGraphsbyPeak(bool zoom=kFALSE) {
   //********* pp Jpsi ***********//
   gsigmaJpsippRD->SetMarkerStyle(33);
   gsigmaJpsippRD->SetMarkerColor(kBlack);
-  gsigmaJpsippRD->SetMarkerSize(markerSize);
+  gsigmaJpsippRD->SetMarkerSize(ppmarkerSize);
   gsigmaJpsippRD->SetLineColor(kBlack);
   gsigmaJpsippRD->Draw("same P");
   gsigmaJpsippMC->SetMarkerStyle(27);
   gsigmaJpsippMC->SetMarkerColor(kBlack);
-  gsigmaJpsippMC->SetMarkerSize(markerSize);
+  gsigmaJpsippMC->SetMarkerSize(ppmarkerSize);
   gsigmaJpsippMC->SetLineColor(kBlack);
   gsigmaJpsippMC->Draw("same P");
   TLegend* leg1 = new TLegend(0.17,0.55,0.45,0.85);
@@ -298,12 +299,12 @@ void mergeEtaGraphsbyPeak(bool zoom=kFALSE) {
   //********* pp Z ***********//
   gsigmaZppRD->SetMarkerStyle(33);
   gsigmaZppRD->SetMarkerColor(kBlack);
-  gsigmaZppRD->SetMarkerSize(markerSize);
+  gsigmaZppRD->SetMarkerSize(ppmarkerSize);
   gsigmaZppRD->SetLineColor(kBlack);
   gsigmaZppRD->Draw("same P");
   gsigmaZppMC->SetMarkerStyle(27);
   gsigmaZppMC->SetMarkerColor(kBlack);
-  gsigmaZppMC->SetMarkerSize(markerSize);
+  gsigmaZppMC->SetMarkerSize(ppmarkerSize);
   gsigmaZppMC->SetLineColor(kBlack);
   gsigmaZppMC->Draw("same P");
   TLegend* leg2 = new TLegend(0.17,0.55,0.45,0.85);
@@ -398,12 +399,12 @@ void mergeEtaGraphsbyPeak(bool zoom=kFALSE) {
   //********* pp Jpsi ***********//
   gmassJpsippRD->SetMarkerStyle(33);
   gmassJpsippRD->SetMarkerColor(kBlack);
-  gmassJpsippRD->SetMarkerSize(markerSize);
+  gmassJpsippRD->SetMarkerSize(ppmarkerSize);
   gmassJpsippRD->SetLineColor(kBlack);
   gmassJpsippRD->Draw("same P");
   gmassJpsippMC->SetMarkerStyle(27);
   gmassJpsippMC->SetMarkerColor(kBlack);
-  gmassJpsippMC->SetMarkerSize(markerSize);
+  gmassJpsippMC->SetMarkerSize(ppmarkerSize);
   gmassJpsippMC->SetLineColor(kBlack);
   gmassJpsippMC->Draw("same P");
   TLegend* leg3 = new TLegend(0.17,0.15,0.45,0.45);
@@ -422,7 +423,7 @@ void mergeEtaGraphsbyPeak(bool zoom=kFALSE) {
   //header3->SetTextSize(.06);
   leg3->Draw("same");
   TLine* l3a = new TLine(0,1,2.4,1);
-  l3a->SetLineColor(kRed);
+  l3a->SetLineColor(kBlack);
   l3a->SetLineStyle(2);
   l3a->Draw("same");
 
@@ -498,12 +499,12 @@ void mergeEtaGraphsbyPeak(bool zoom=kFALSE) {
   //********* pp Z ***********//
   gmassZppRD->SetMarkerStyle(33);
   gmassZppRD->SetMarkerColor(kBlack);
-  gmassZppRD->SetMarkerSize(markerSize);
+  gmassZppRD->SetMarkerSize(ppmarkerSize);
   gmassZppRD->SetLineColor(kBlack);
   gmassZppRD->Draw("same P");
   gmassZppMC->SetMarkerStyle(27);
   gmassZppMC->SetMarkerColor(kBlack);
-  gmassZppMC->SetMarkerSize(markerSize);
+  gmassZppMC->SetMarkerSize(ppmarkerSize);
   gmassZppMC->SetLineColor(kBlack);
   gmassZppMC->Draw("same P");
   TLegend* leg4 = new TLegend(0.17,0.15,0.45,0.45);
@@ -522,7 +523,7 @@ void mergeEtaGraphsbyPeak(bool zoom=kFALSE) {
   //header4->SetTextSize(.06);
   leg4->Draw("same");
   TLine* l4a = new TLine(0,1,2.4,1);
-  l4a->SetLineColor(kRed);
+  l4a->SetLineColor(kBlack);
   l4a->SetLineStyle(2);
   l4a->Draw("same");
 

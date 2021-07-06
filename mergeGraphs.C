@@ -74,6 +74,7 @@ void DivideGraphs(TGraphAsymmErrors* gRD, TGraphAsymmErrors* gMC) {
 void mergeGraphs() {
 
   float markerSize = 1.2;
+  float ppmarkerSize = 1.6;
   gStyle->SetErrorX(0);//This doesn't do anything.
 
   cout << "Loading graphs from RD files..." << endl;
@@ -192,7 +193,7 @@ void mergeGraphs() {
   gsigmaZpPbRD->Draw("same P");
   gsigmaZppRD->SetMarkerStyle(33);
   gsigmaZppRD->SetMarkerColor(kBlack);
-  gsigmaZppRD->SetMarkerSize(markerSize);
+  gsigmaZppRD->SetMarkerSize(ppmarkerSize);
   gsigmaZppRD->SetLineColor(kBlack);
   gsigmaZppRD->Draw("same P");
   gsigmaZPbPbMC->SetMarkerStyle(24);
@@ -207,7 +208,7 @@ void mergeGraphs() {
   gsigmaZpPbMC->Draw("same P");
   gsigmaZppMC->SetMarkerStyle(27);
   gsigmaZppMC->SetMarkerColor(kBlack);
-  gsigmaZppMC->SetMarkerSize(markerSize);
+  gsigmaZppMC->SetMarkerSize(ppmarkerSize);
   gsigmaZppMC->SetLineColor(kBlack);
   gsigmaZppMC->Draw("same P");
 
@@ -306,7 +307,7 @@ void mergeGraphs() {
   gmassZpPbRD->Draw("same P");
   gmassZppRD->SetMarkerStyle(33);
   gmassZppRD->SetMarkerColor(kBlack);
-  gmassZppRD->SetMarkerSize(markerSize);
+  gmassZppRD->SetMarkerSize(ppmarkerSize);
   gmassZppRD->SetLineColor(kBlack);
   gmassZppRD->Draw("same P");
   gmassZPbPbMC->SetMarkerStyle(24);
@@ -321,7 +322,7 @@ void mergeGraphs() {
   gmassZpPbMC->Draw("same P");
   gmassZppMC->SetMarkerStyle(27);
   gmassZppMC->SetMarkerColor(kBlack);
-  gmassZppMC->SetMarkerSize(markerSize);
+  gmassZppMC->SetMarkerSize(ppmarkerSize);
   gmassZppMC->SetLineColor(kBlack);
   gmassZppMC->Draw("same P");
 
@@ -346,7 +347,7 @@ void mergeGraphs() {
   drawText("|#eta^{#mu}| < 2.4", pos_text_x,pos_text_y-2*pos_y_diff,text_color,text_size);
 
   TLine* l2a = new TLine(0,1,3000,1);
-  l2a->SetLineColor(kRed);
+  l2a->SetLineColor(kBlack);
   l2a->SetLineStyle(2);
   l2a->Draw("same");
 
@@ -419,7 +420,7 @@ void mergeGraphs() {
   gsigmaJpsipPbRD->Draw("same P");
   gsigmaJpsippRD->SetMarkerStyle(33);
   gsigmaJpsippRD->SetMarkerColor(kBlack);
-  gsigmaJpsippRD->SetMarkerSize(markerSize);
+  gsigmaJpsippRD->SetMarkerSize(ppmarkerSize);
   gsigmaJpsippRD->SetLineColor(kBlack);
   gsigmaJpsippRD->Draw("same P");
   gsigmaJpsiPbPbMC->SetMarkerStyle(24);
@@ -434,7 +435,7 @@ void mergeGraphs() {
   gsigmaJpsipPbMC->Draw("same P");
   gsigmaJpsippMC->SetMarkerStyle(27);
   gsigmaJpsippMC->SetMarkerColor(kBlack);
-  gsigmaJpsippMC->SetMarkerSize(markerSize);
+  gsigmaJpsippMC->SetMarkerSize(ppmarkerSize);
   gsigmaJpsippMC->SetLineColor(kBlack);
   gsigmaJpsippMC->Draw("same P");
 
@@ -527,7 +528,7 @@ void mergeGraphs() {
   gmassJpsipPbRD->Draw("same P");
   gmassJpsippRD->SetMarkerStyle(33);
   gmassJpsippRD->SetMarkerColor(kBlack);
-  gmassJpsippRD->SetMarkerSize(markerSize);
+  gmassJpsippRD->SetMarkerSize(ppmarkerSize);
   gmassJpsippRD->SetLineColor(kBlack);
   gmassJpsippRD->Draw("same P");
   gmassJpsiPbPbMC->SetMarkerStyle(24);
@@ -542,7 +543,7 @@ void mergeGraphs() {
   gmassJpsipPbMC->Draw("same P");
   gmassJpsippMC->SetMarkerStyle(27);
   gmassJpsippMC->SetMarkerColor(kBlack);
-  gmassJpsippMC->SetMarkerSize(markerSize);
+  gmassJpsippMC->SetMarkerSize(ppmarkerSize);
   gmassJpsippMC->SetLineColor(kBlack);
   gmassJpsippMC->Draw("same P");
 
@@ -567,7 +568,7 @@ void mergeGraphs() {
   drawText("|#eta^{#mu}| < 2.4", pos_text_x,pos_text_y-2*pos_y_diff,text_color,text_size);
 
   TLine* l4a = new TLine(0,1,3000,1);
-  l4a->SetLineColor(kRed);
+  l4a->SetLineColor(kBlack);
   l4a->SetLineStyle(2);
   l4a->Draw("same");
 

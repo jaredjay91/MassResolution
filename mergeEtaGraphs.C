@@ -18,6 +18,8 @@ void mergeEtaGraphs(bool zoom=kFALSE) {
   TString zoomString = "";
   if (zoom) zoomString = "_zoom";
 
+  float markerSize = 1.5;
+
   //setTDRStyle();
   //writeExtraText = false;
   //extraText = "Preliminary";
@@ -271,24 +273,32 @@ void mergeEtaGraphs(bool zoom=kFALSE) {
   removeXerrors(gOldsigmaMC);
   gsigmaJpsippRDUnscaled->SetTitle("");
   gsigmaJpsippRDUnscaled->SetMinimum(0.0);
-  gsigmaJpsippRDUnscaled->SetMaximum(0.07);
+  gsigmaJpsippRDUnscaled->SetMaximum(0.08);
+  gsigmaJpsippRDUnscaled->GetXaxis()->SetTitleSize(0.05);
+  gsigmaJpsippRDUnscaled->GetXaxis()->SetLabelSize(0.05);
+  gsigmaJpsippRDUnscaled->GetYaxis()->SetTitleSize(0.05);
+  gsigmaJpsippRDUnscaled->GetYaxis()->SetLabelSize(0.05);
   gsigmaJpsippRDUnscaled->GetXaxis()->SetLimits(0.0,2.8);
   gsigmaJpsippRDUnscaled->GetXaxis()->SetTitle("|#eta^{#mu}|");
   gsigmaJpsippRDUnscaled->GetYaxis()->SetTitle("Mass Resolution (#sigma_{avg}) at J/#psi peak (GeV)");
   gsigmaJpsippRDUnscaled->Draw("AP");
   gsigmaJpsippRDUnscaled->SetMarkerStyle(33);
+  gsigmaJpsippRDUnscaled->SetMarkerSize(markerSize);
   gsigmaJpsippRDUnscaled->SetMarkerColor(kBlack);
   gsigmaJpsippRDUnscaled->SetLineColor(kBlack);
   gsigmaJpsippRDUnscaled->Draw("AP");
   gsigmaJpsippMCUnscaled->SetMarkerStyle(27);
+  gsigmaJpsippMCUnscaled->SetMarkerSize(markerSize);
   gsigmaJpsippMCUnscaled->SetMarkerColor(kBlack);
   gsigmaJpsippMCUnscaled->SetLineColor(kBlack);
   gsigmaJpsippMCUnscaled->Draw("same P");
-  gOldsigmaRD->SetMarkerStyle(23);
+  gOldsigmaRD->SetMarkerStyle(43);
+  gOldsigmaRD->SetMarkerSize(markerSize);
   gOldsigmaRD->SetMarkerColor(kPurple);
   gOldsigmaRD->SetLineColor(kPurple);
   gOldsigmaRD->Draw("same P E");
-  gOldsigmaMC->SetMarkerStyle(32);
+  gOldsigmaMC->SetMarkerStyle(42);
+  gOldsigmaMC->SetMarkerSize(markerSize);
   gOldsigmaMC->SetMarkerColor(kPurple);
   gOldsigmaMC->SetLineColor(kPurple);
   gOldsigmaMC->Draw("same P E");
@@ -303,9 +313,13 @@ void mergeEtaGraphs(bool zoom=kFALSE) {
   legComp->AddEntry(gOldsigmaMC,"2010 pp MC 7 TeV","pe");
   legComp->Draw("same");
 
+  c1ppUnscaled->SetLeftMargin(0.2);
   c1ppUnscaled->SetTicks(1,1);
-  c1ppUnscaled->SetLeftMargin(0.15);
   c1ppUnscaled->SetRightMargin(0.05);
+  c1ppUnscaled->SetBottomMargin(0.11);
+
+  CMS_lumi(c1ppUnscaled, 0 ,33);
+
   c1ppUnscaled->SaveAs(Form("FinalPlots/etaMassResJpsipp%s_unscaled.pdf",zoomString.Data()));
   c1ppUnscaled->SaveAs(Form("FinalPlots/etaMassResJpsipp%s_unscaled.png",zoomString.Data()));
 
@@ -514,24 +528,32 @@ void mergeEtaGraphs(bool zoom=kFALSE) {
   removeXerrors(gOldmassMC);
   gmassJpsippRDUnscaled->SetTitle("");
   gmassJpsippRDUnscaled->SetMinimum(3.08);
-  gmassJpsippRDUnscaled->SetMaximum(3.10);
+  gmassJpsippRDUnscaled->SetMaximum(3.102);
+  gmassJpsippRDUnscaled->GetXaxis()->SetTitleSize(0.05);
+  gmassJpsippRDUnscaled->GetXaxis()->SetLabelSize(0.05);
+  gmassJpsippRDUnscaled->GetYaxis()->SetTitleSize(0.05);
+  gmassJpsippRDUnscaled->GetYaxis()->SetLabelSize(0.05);
   gmassJpsippRDUnscaled->GetXaxis()->SetLimits(0.0,2.8);
   gmassJpsippRDUnscaled->GetXaxis()->SetTitle("|#eta^{#mu}|");
   gmassJpsippRDUnscaled->GetYaxis()->SetTitle("Mass (m_{Fit}) of J/#psi (GeV)");
   gmassJpsippRDUnscaled->Draw("AP");
   gmassJpsippRDUnscaled->SetMarkerStyle(33);
+  gmassJpsippRDUnscaled->SetMarkerSize(markerSize);
   gmassJpsippRDUnscaled->SetMarkerColor(kBlack);
   gmassJpsippRDUnscaled->SetLineColor(kBlack);
   gmassJpsippRDUnscaled->Draw("AP");
   gmassJpsippMCUnscaled->SetMarkerStyle(27);
+  gmassJpsippMCUnscaled->SetMarkerSize(markerSize);
   gmassJpsippMCUnscaled->SetMarkerColor(kBlack);
   gmassJpsippMCUnscaled->SetLineColor(kBlack);
   gmassJpsippMCUnscaled->Draw("same P");
-  gOldmassRD->SetMarkerStyle(23);
+  gOldmassRD->SetMarkerStyle(43);
+  gOldmassRD->SetMarkerSize(markerSize);
   gOldmassRD->SetMarkerColor(kPurple);
   gOldmassRD->SetLineColor(kPurple);
   gOldmassRD->Draw("same P");
-  gOldmassMC->SetMarkerStyle(32);
+  gOldmassMC->SetMarkerStyle(42);
+  gOldmassMC->SetMarkerSize(markerSize);
   gOldmassMC->SetMarkerColor(kPurple);
   gOldmassMC->SetLineColor(kPurple);
   gOldmassMC->Draw("same P");
@@ -547,13 +569,17 @@ void mergeEtaGraphs(bool zoom=kFALSE) {
   legComp2->Draw("same");
 
   TLine* l1 = new TLine(0,3.0969,2.8,3.0969);
-  l1->SetLineColor(kGreen);
+  l1->SetLineColor(kBlack);
   l1->SetLineStyle(9);
   l1->Draw("same");
 
-  c3ppUnscaled->SetLeftMargin(0.15);
+  c3ppUnscaled->SetLeftMargin(0.2);
   c3ppUnscaled->SetTicks(1,1);
   c3ppUnscaled->SetRightMargin(0.05);
+  c3ppUnscaled->SetBottomMargin(0.11);
+
+  CMS_lumi(c3ppUnscaled, 0 ,33);
+
   c3ppUnscaled->SaveAs(Form("FinalPlots/etaMassScaleJpsipp%s_unscaled.pdf",zoomString.Data()));
   c3ppUnscaled->SaveAs(Form("FinalPlots/etaMassScaleJpsipp%s_unscaled.png",zoomString.Data()));
 
